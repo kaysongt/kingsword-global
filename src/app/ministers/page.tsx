@@ -52,7 +52,7 @@ export default async function MinistersPage({
     <div className="kw-shell">
       <header className="ministry-header">
         <div>
-          <p className="kw-kicker">KINGSWORD MINISTERS</p>
+          <p className="kw-kicker">KingsWord MINISTERS</p>
           <h1>
             Ministry Files
             <br />

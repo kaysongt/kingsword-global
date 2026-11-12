@@ -932,6 +932,9 @@
   border-radius: 6px;
   color: #294565;
 }
+.kw-visit-faq {
+  margin-top: 24px;
+}
 .kw-watch {
   background: var(--kw-surface-soft);
   border-block: 1px solid var(--kw-line);

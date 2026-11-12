@@ -11,7 +11,7 @@ export default function MinistersLoginPage() {
         <span className="ministry-icon">
           <FolderLock size={28} />
         </span>
-        <p className="kw-kicker">KINGSWORD MINISTERS</p>
+        <p className="kw-kicker">KingsWord MINISTERS</p>
         <h1>
           Resources for
           <br />

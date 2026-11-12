@@ -65,7 +65,8 @@ export const LOCATIONS: readonly ChurchLocation[] = [
     description: "Find community at KingsWord Dallas. Connect with the congregation in Celina and grow with us in faith and purpose.",
     timezone: "America/Chicago", services: [{ day: "Sunday", time: "11:00 AM", note: "Doors open at 10:30 AM. All times are local." }],
     congregations: [{ name: "KingsWord Dallas", address: "8170 County Road 101, Celina, TX 75009", phone: "+1 847 910 6446" }],
-    watchUrl: "https://www.youtube.com/watch?v=XABgiC2jMsE",
+    watchUrl: "https://kingsworddallas.org/sermons/",
+    giveUrl: "https://kingsworddallas.org/give/",
     sourceUrl: "https://kingsworddallas.org/visit/",
   },
   {
@@ -81,6 +82,15 @@ export const LOCATIONS: readonly ChurchLocation[] = [
     sourceUrl: "https://kingswordlondon.org/",
   },
 ];
+
+export const DALLAS_LINKS = {
+  events: "https://kingsworddallas.org/events/",
+  articles: "https://kingsworddallas.org/articles/",
+  about: "https://kingsworddallas.org/about/",
+};
+
+export const DALLAS_CHILDREN =
+  "Sunday programs are available for ages 2–15. Check in at the lobby kiosk before service. Children are released to the adult who checked them in.";
 
 export type PublicContext = { location?: ChurchLocation; basePath: string; customDomain: boolean };
 

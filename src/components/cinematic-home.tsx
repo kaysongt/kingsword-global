@@ -128,7 +128,7 @@ export function CinematicHome({ context }: { context: PublicContext }) {
         <section className="kw-statement">
           <div className="kw-shell">
             <Reveal>
-              <p className="kw-kicker">THIS IS KINGSWORD</p>
+              <p className="kw-kicker">THIS IS KingsWord</p>
               <h2>
                 A worldwide church.
                 <br />
@@ -174,7 +174,7 @@ export function CinematicHome({ context }: { context: PublicContext }) {
             sizes="100vw"
           />
           <div className="kw-shell">
-            <p className="kw-kicker">IN THE ROOM · KINGSWORD IKEJA</p>
+            <p className="kw-kicker">IN THE ROOM · KingsWord IKEJA</p>
             <h2>
               This is what
               <br />

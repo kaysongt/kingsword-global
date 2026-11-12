@@ -19,6 +19,8 @@ import {
 } from "@/components/cinematic-home";
 import { LOCATION_MEDIA } from "@/lib/location-media";
 import {
+  DALLAS_CHILDREN,
+  DALLAS_LINKS,
   localHref,
   mapHref,
   NETWORK,
@@ -57,7 +59,7 @@ const LEADERS: Record<
       name: "Pastors Dotun & Buki Oragbade",
       role: "KingsWord Dallas",
       description:
-        "Welcoming people into a family of faith and serving the KingsWord community in the Dallas area.",
+        "Dotun and Buki Oragbade serve as the resident pastors of KingsWord International Church, Dallas.",
     },
   ],
   london: [
@@ -184,6 +186,34 @@ export function VisitSection({ context }: { context: PublicContext }) {
             )}
           </div>
         </div>
+        {location.slug === "dallas" && (
+          <div className="kw-values kw-visit-faq">
+            <article>
+              <h3>Parking</h3>
+              <p>
+                Guest parking is reserved. Turn on your hazard lights when you
+                arrive and the parking team can guide you.
+              </p>
+            </article>
+            <article>
+              <h3>Children and teens</h3>
+              <p>{DALLAS_CHILDREN}</p>
+              <Link className="kw-text-link" href={localHref(context, "children")}>
+                Children’s ministry <ArrowUpRight size={16} />
+              </Link>
+            </article>
+            <article>
+              <h3>What to expect</h3>
+              <p>
+                Dress comfortably. Water and coffee are available in the lobby
+                before the service.
+              </p>
+              <a className="kw-text-link" href={location.sourceUrl}>
+                Let the Dallas team know you’re coming <ArrowUpRight size={16} />
+              </a>
+            </article>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -268,12 +298,12 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
       <section className={`kw-place-hero place-${location.slug}`}>
         <div className="kw-shell kw-place-content">
           <Link href="/explore" className="kw-place-breadcrumb">
-            KINGSWORD EVERYWHERE <span>/</span> {location.region.toUpperCase()}
+            KingsWord Everywhere <span>/</span> {location.region.toUpperCase()}
           </Link>
           <div className="kw-place-main">
             <div className="kw-place-copy">
               <p className="kw-kicker">
-                KINGSWORD {location.name.toUpperCase()}
+                KingsWord {location.name}
               </p>
               <h1>
                 {media.heroLead}
@@ -350,6 +380,16 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
             <h2>{media.headline}</h2>
             <p>{location.description}</p>
             <p>{media.story}</p>
+            {location.slug === "dallas" && (
+              <div className="kw-place-actions">
+                <a className="kw-text-link" href={DALLAS_LINKS.events}>
+                  Dallas events <ArrowUpRight size={16} />
+                </a>
+                <a className="kw-text-link" href={DALLAS_LINKS.articles}>
+                  Articles <ArrowUpRight size={16} />
+                </a>
+              </div>
+            )}
             <Link href={localHref(context, "about")} className="kw-text-link">
               Meet your church family <ArrowUpRight size={18} />
             </Link>
@@ -363,8 +403,8 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
             />
             <span>
               {location.slug === "nigeria"
-                ? "KINGSWORD IKEJA · LAGOS"
-                : `KINGSWORD ${location.name.toUpperCase()}`}
+                ? "KingsWord Ikeja · Lagos"
+                : `KingsWord ${location.name}`}
             </span>
           </Reveal>
         </div>
@@ -386,7 +426,10 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              More from {location.name} <ArrowUpRight size={17} />
+              {location.slug === "dallas"
+                ? "Browse Dallas sermons"
+                : `More from ${location.name}`}
+              <ArrowUpRight size={17} />
             </a>
           )}
         </div>
@@ -469,6 +512,23 @@ export function CinematicInformationPage({
                   finds expression in how we worship, how we serve and how we
                   live.
                 </p>
+                {location?.slug === "dallas" && (
+                  <>
+                    <p>
+                      KingsWord Dallas began in February 2013 with four people
+                      praying together in a home. Today the church serves the
+                      Dallas–Fort Worth area and belongs to the KingsWord
+                      Everywhere and The New network.
+                    </p>
+                    <p>
+                      Its mission is to help people live by Scripture, follow
+                      the Holy Spirit and fulfill their God-given purpose.
+                    </p>
+                    <a className="kw-text-link" href={DALLAS_LINKS.about}>
+                      Read the Dallas history, values and creed <ArrowUpRight size={16} />
+                    </a>
+                  </>
+                )}
                 <Link
                   className="kw-text-link"
                   href={location ? localHref(context, "#visit") : "/locations"}
@@ -587,7 +647,9 @@ export function CinematicInformationPage({
                     body:
                       location?.slug === "chicago"
                         ? "Child care is available at every Sunday service. Ask our team about Vacation Bible School, Back to School, Hallelujah Night and our Christmas Production."
-                        : "Every congregation has its own arrangements. Your local team can help you discover what is available for your family.",
+                        : location?.slug === "dallas"
+                          ? DALLAS_CHILDREN
+                          : "Every congregation has its own arrangements. Your local team can help you discover what is available for your family.",
                   },
                 ].map((item, i) => (
                   <article key={item.title}>
@@ -636,7 +698,7 @@ export function CinematicLocationsPage({
     <SiteFrame context={context}>
       <section className="kw-info-hero">
         <div className="kw-shell">
-          <p className="kw-kicker">KINGSWORD EVERYWHERE</p>
+          <p className="kw-kicker">KingsWord Everywhere</p>
           <h1>
             Find your <em>KingsWord church.</em>
           </h1>

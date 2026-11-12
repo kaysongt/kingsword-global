@@ -349,7 +349,7 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
     >
       <div className="globe-copy">
         <p className="kw-kicker">
-          <span className="status-dot" /> KINGSWORD MINISTRIES INTERNATIONAL
+          <span className="status-dot" /> KingsWord MINISTRIES INTERNATIONAL
         </p>
         <h1>
           Faith beyond

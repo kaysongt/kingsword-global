@@ -80,5 +80,7 @@ Nigeria is a regional directory, with four listed congregations and a link to
 the complete ministry directory. Its globe point represents Lagos as a regional
 entry point, not every Nigerian congregation. Dallas now uses the local church's
 Celina address and published Sunday 11:00 AM service (doors open 10:30 AM).
-Unverified local giving links are omitted.
-Do not copy Chicago's donation destination into other location settings.
+Dallas visitor details, history, sermons, events, articles and giving were
+checked against https://kingsworddallas.org/ in November 2026. The rebuilt site
+links to the Dallas church’s existing visit form and giving page. The global
+directory still showed the previous address in The Colony.
