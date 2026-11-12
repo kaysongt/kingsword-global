@@ -231,6 +231,24 @@
   flex-shrink: 0;
 }
 /* The Earth is the focal point; one compact gallery follows the selected church. */
+.kw-home-hero {
+  --kw-hero-gold: #f2c477;
+  --kw-hero-muted: #cbd7e7;
+  --kw-line: #ffffff36;
+  background: radial-gradient(ellipse at 75% 36%, #1e3c62, #10233c 73%);
+  color: #fff9ef;
+}
+.kw-home-hero .kw-button-light {
+  background: var(--kw-hero-gold);
+  color: #182b42;
+}
+.kw-home-hero .kw-button-light:hover {
+  background: #ffdaa0;
+}
+.kw-home-hero :focus-visible {
+  outline: 2px solid #fff9ef;
+  outline-offset: 4px;
+}
 .globe-experience {
   position: relative;
   display: grid;
@@ -254,12 +272,12 @@
   font-weight: 850;
 }
 .globe-copy h1 em {
-  color: #1743ad;
+  color: var(--kw-hero-gold);
   position: relative;
 }
 .globe-intro {
   margin: 24px 0 28px;
-  color: #34465e;
+  color: var(--kw-hero-muted);
   font-size: 17px;
   line-height: 1.85;
   max-width: 420px;
@@ -280,7 +298,7 @@
   line-height: 1.5;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #42566d;
+  color: var(--kw-hero-muted);
   font-weight: 700;
 }
 .globe-highlight-heading {
@@ -297,7 +315,7 @@
 }
 .globe-highlight p {
   font-size: 14px;
-  color: #42566d;
+  color: var(--kw-hero-muted);
   line-height: 1.5;
 }
 .globe-highlight-heading > a {
@@ -306,7 +324,7 @@
   gap: 8px;
   font-size: 13px;
   font-weight: 800;
-  color: #1743ad;
+  color: var(--kw-hero-gold);
   min-height: 44px;
 }
 .globe-mini-gallery {
@@ -346,7 +364,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  color: #42566d;
+  color: var(--kw-hero-muted);
   font-size: 12px;
 }
 .globe-gallery-controls > div {
@@ -358,11 +376,11 @@
   display: grid;
   place-items: center;
   cursor: pointer;
-  color: #1743ad;
+  color: var(--kw-hero-gold);
   border-radius: 50%;
 }
 .globe-gallery-controls button:hover {
-  background: #eef4ff;
+  background: #ffffff1a;
 }
 .globe-visual {
   position: relative;
@@ -374,23 +392,10 @@
   grid-column: 2;
   grid-row: 1/3;
 }
-.globe-coordinate {
-  position: absolute;
-  top: 22px;
-  left: 8%;
-  right: 5%;
-  display: flex;
-  justify-content: space-between;
-  color: #42566d;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
 .globe-stage {
   position: relative;
   width: 100%;
   aspect-ratio: 1;
-  background: var(--kw-canvas);
 }
 .globe-stage canvas {
   width: 100%;
@@ -471,34 +476,6 @@
   background: #1743ad;
   color: #fff;
 }
-.globe-tools {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  padding: 0 8%;
-  margin-top: -12px;
-  color: #42566d;
-  font-size: 12px;
-}
-.globe-tools > div {
-  display: flex;
-  gap: 8px;
-}
-.globe-tools button {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 1px solid #d3e0ee;
-  border-radius: 50%;
-  cursor: pointer;
-  color: #1743ad;
-  background: var(--kw-surface);
-}
-.globe-tools button:hover {
-  background: #eef4ff;
-}
 .globe-fallback {
   position: absolute;
   bottom: 8%;
@@ -522,7 +499,7 @@
   gap: 18px;
   font-size: 12px;
   letter-spacing: 0.08em;
-  color: #42566d;
+  color: var(--kw-hero-muted);
   white-space: nowrap;
 }
 .globe-location-bar > div {
@@ -537,21 +514,20 @@
   gap: 12px;
   min-height: 44px;
   cursor: pointer;
-  color: #42566d;
+  color: var(--kw-hero-muted);
   font-size: 14px;
   font-weight: 800;
   transition: color 0.3s;
 }
-.globe-location-bar button span {
-  font-size: 12px;
-  color: #42566d;
-  font-weight: 500;
+.globe-location-bar button:hover,
+.globe-location-bar button.is-active {
+  color: var(--kw-hero-gold);
 }
 .globe-location-bar button.is-active {
-  color: #1743ad;
+  box-shadow: inset 0 -2px var(--kw-hero-gold);
 }
 .kw-statement {
-  background: var(--kw-surface-soft);
+  background: #e9d9bf;
   border-block: 1px solid var(--kw-line);
   padding: 80px 0;
 }
@@ -768,7 +744,7 @@
 /* Location pages put the welcome and a bright, unfiltered photograph side by side. */
 .kw-place-hero {
   position: relative;
-  background: linear-gradient(150deg, var(--kw-canvas) 45%, var(--kw-surface-cool));
+  background: linear-gradient(150deg, var(--kw-canvas), color-mix(in srgb, var(--kw-accent) 13%, var(--kw-surface)));
 }
 .kw-place-content {
   padding-top: 30px;
@@ -1478,14 +1454,6 @@
   .globe-highlight {
     max-width: 310px;
   }
-  .globe-tools {
-    padding-inline: 0;
-    font-size: 12px;
-    gap: 8px;
-  }
-  .globe-coordinate {
-    display: none;
-  }
   .kw-location-card {
     grid-column: span 3;
     aspect-ratio: 1.2;
@@ -1591,14 +1559,6 @@
   .globe-stage {
     width: 100%;
     margin-left: 0;
-  }
-  .globe-tools {
-    margin-top: -5px;
-    font-size: 12px;
-  }
-  .globe-tools button {
-    width: 44px;
-    height: 44px;
   }
   .globe-highlight {
     order: 3;

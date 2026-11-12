@@ -30,7 +30,7 @@ export async function SiteFooter({
             <p>{location?.description ?? NETWORK.description}</p>
           </div>
           <nav aria-label="Locations in footer">
-            <p>One family. Everywhere.</p>
+            <p>Our locations</p>
             {LOCATIONS.map((item) => (
               <Link
                 key={item.slug}

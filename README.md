@@ -2,8 +2,8 @@
 
 The KingsWord network, five location sites and the **Believers Training** programme, as one application.
 
-The homepage is an interactive, rotating globe with clickable church locations,
-an automatic tour, draggable geography and compact, swipeable location photo galleries. Chicago, Nigeria,
+The homepage is an interactive globe with clickable church locations,
+drag-to-rotate controls and compact, swipeable location photo galleries. Chicago, Nigeria,
 Calgary, Dallas and London each have bright, distinct local pages, real photography,
 embedded teaching and worship videos, visiting information and hostname routing.
 The seven-module training portal remains shared across locations.
@@ -22,7 +22,7 @@ Photography, videos and globe coordinates live in `src/lib/location-media.ts`.
 
 ## What is included
 
-- Interactive 4K NASA Earth globe, automated location tour, mini photo galleries, accessible pause/reset and location controls
+- Interactive 4K NASA Earth globe, drag-to-rotate controls, mini photo galleries and accessible location selectors
 - Fourteen real church photographs and nine official YouTube videos, with responsive image loading and click-to-play embeds
 - KingsWord network homepage and a five-location photo directory
 - Location sites: home, about, children's ministry, contact, and visiting details

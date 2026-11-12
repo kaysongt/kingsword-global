@@ -8,9 +8,6 @@ import {
   ChevronRight,
   ArrowUpRight,
   MoveUpRight,
-  Pause,
-  Play,
-  RotateCcw,
 } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { coastGlobe, COAST_STOP_SPEED } from "@/lib/globe-motion";
@@ -40,7 +37,6 @@ export type GlobeLocation = {
 
 export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [available, setAvailable] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fallbackRef = useRef<HTMLCanvasElement>(null);
@@ -48,35 +44,28 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const pinsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const engineRef = useRef({
-    rotation: [65, -25] as [number, number],
-    target: [65, -25] as [number, number],
+    rotation: [-locations[0].coordinates[0], -locations[0].coordinates[1] + 12] as [number, number],
+    target: [-locations[0].coordinates[0], -locations[0].coordinates[1] + 12] as [number, number],
     active: 0,
-    paused: false,
-    hovered: false,
     dragging: false,
     lastX: 0,
     lastY: 0,
     lastMove: 0,
     pointerId: null as number | null,
     velocity: [0, 0] as [number, number],
-    userPaused: false,
-    tourElapsed: 0,
     reduced: false,
     inView: true,
   });
 
-  function select(index: number, pause = true) {
+  function select(index: number) {
     const engine = engineRef.current;
     engine.active = index;
     engine.velocity = [0, 0];
-    engine.tourElapsed = 0;
     engine.target = [
       -locations[index].coordinates[0],
       -locations[index].coordinates[1] + 12,
     ];
-    engine.paused = pause;
     setActive(index);
-    setPaused(pause);
   }
 
   function finishDrag(event: PointerEvent<HTMLCanvasElement>, cancelled = false) {
@@ -86,13 +75,10 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
     engine.pointerId = null;
     const age = performance.now() - engine.lastMove;
     const releaseDecay = Math.exp(-Math.max(0, age - 80) / 90);
-    engine.velocity = cancelled || engine.reduced || engine.userPaused
+    engine.velocity = cancelled || engine.reduced
       ? [0, 0]
       : [engine.velocity[0] * releaseDecay, engine.velocity[1] * releaseDecay];
     engine.target = [...engine.rotation];
-    engine.tourElapsed = 0;
-    engine.paused = engine.userPaused || engine.reduced;
-    setPaused(engine.paused);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   }
 
@@ -133,9 +119,7 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
     observer.observe(stage);
     const motionChange = () => {
       engine.reduced = media.matches;
-      engine.paused = engine.userPaused || media.matches;
       engine.velocity = [0, 0];
-      setPaused(engine.paused);
     };
     motionChange();
     media.addEventListener("change", motionChange);
@@ -172,27 +156,15 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
       if (now - last < 32) return;
       last = now;
       if (document.hidden || !engine.inView) return;
-      const canMove = !engine.paused && !engine.hovered && !engine.dragging;
-      const coasting = canMove && !engine.reduced && Math.hypot(...engine.velocity) >= COAST_STOP_SPEED;
+      const coasting =
+        !engine.dragging &&
+        !engine.reduced &&
+        Math.hypot(...engine.velocity) >= COAST_STOP_SPEED;
       if (coasting) {
         const next = coastGlobe(engine.rotation, engine.velocity, delta);
         engine.rotation = next.rotation;
         engine.velocity = next.velocity;
         engine.target = [...engine.rotation];
-        engine.tourElapsed = 0;
-      } else if (canMove) {
-        engine.tourElapsed += delta;
-        engine.target[0] += delta * 0.0018;
-        if (engine.tourElapsed > 6500) {
-          engine.tourElapsed = 0;
-          const index = (engine.active + 1) % locations.length;
-          engine.active = index;
-          engine.target = [
-            -locations[index].coordinates[0],
-            -locations[index].coordinates[1] + 12,
-          ];
-          setActive(index);
-        }
       }
       if (!engine.dragging && !coasting) {
         const distance =
@@ -348,17 +320,11 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
       aria-label="Explore KingsWord locations"
     >
       <div className="globe-copy">
-        <p className="kw-kicker">
-          <span className="status-dot" /> KingsWord MINISTRIES INTERNATIONAL
-        </p>
         <h1>
-          Faith beyond
-          <br />
-          <em>borders.</em>
+          Worship <em>with us.</em>
         </h1>
         <p className="globe-intro">
-          From Chicago to Lagos, Calgary to London. Discover the people, worship
-          and shared faith that connect our world.
+          Find a KingsWord church, see when we meet, and plan your first visit.
         </p>
         <a href="#our-locations" className="kw-button kw-button-light">
           Explore our churches <ArrowUpRight size={18} />
@@ -366,9 +332,6 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
       </div>
 
       <div className="globe-visual">
-        <div className="globe-coordinate">
-          YOUR WORLD. YOUR CHURCH. <span>EST. 1997</span>
-        </div>
         <div className="globe-stage" ref={stageRef}>
           <canvas
             ref={fallbackRef}
@@ -377,7 +340,7 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
           />
           <canvas
             ref={canvasRef}
-            aria-label="Rotating globe showing KingsWord churches. Use the location buttons below or select a map marker."
+            aria-label="Map of KingsWord churches. Select a location below or choose a map marker."
             role="img"
             onPointerDown={(event) => {
               const e = engineRef.current;
@@ -423,18 +386,6 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
               }}
               className={`globe-pin ${active === index ? "is-active" : ""} pin-${location.slug}`}
               aria-label={`Visit KingsWord ${location.name}`}
-              onPointerEnter={() => {
-                engineRef.current.hovered = true;
-              }}
-              onPointerLeave={() => {
-                engineRef.current.hovered = false;
-              }}
-              onFocus={() => {
-                engineRef.current.hovered = true;
-              }}
-              onBlur={() => {
-                engineRef.current.hovered = false;
-              }}
             >
               <span className="globe-pin-dot" />
               <span className="globe-pin-label">
@@ -449,51 +400,15 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
             </p>
           )}
         </div>
-        <div className="globe-tools">
-          <span>Drag & release to explore · Select a location</span>
-          <div>
-            <button
-              aria-label={paused ? "Play globe tour" : "Pause globe tour"}
-              onClick={() => {
-                const engine = engineRef.current;
-                engine.paused = !paused;
-                engine.userPaused = !paused;
-                engine.velocity = [0, 0];
-                engine.target = [...engine.rotation];
-                engine.tourElapsed = 0;
-                setPaused(!paused);
-              }}
-            >
-              {paused ? <Play size={15} /> : <Pause size={15} />}
-            </button>
-            <button aria-label="Reset globe view" onClick={() => { engineRef.current.userPaused = false; select(0, engineRef.current.reduced); }}>
-              <RotateCcw size={15} />
-            </button>
-          </div>
-        </div>
       </div>
 
-      <div
-        className="globe-highlight"
-        onPointerEnter={() => {
-          engineRef.current.hovered = true;
-        }}
-        onPointerLeave={() => {
-          engineRef.current.hovered = false;
-        }}
-        onFocus={() => {
-          engineRef.current.hovered = true;
-        }}
-        onBlur={() => {
-          engineRef.current.hovered = false;
-        }}
-      >
+      <div className="globe-highlight">
         <div className="globe-highlight-copy">
-          <span>Explore · {current.region}</span>
+          <span>{current.region}</span>
           <div className="globe-highlight-heading">
             <h2>{current.name}</h2>
-            <Link href={current.href}>
-              Visit church <ArrowUpRight size={16} />
+            <Link href={`${current.href}#visit`}>
+              Plan a visit <ArrowUpRight size={16} />
             </Link>
           </div>
           <p>{current.headline}</p>
@@ -546,7 +461,7 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
 
       <div className="globe-location-bar">
         <span className="globe-bar-label">
-          EXPLORE OUR WORLD <ArrowRight size={15} />
+          CHOOSE A LOCATION <ArrowRight size={15} />
         </span>
         <div>
           {locations.map((location, index) => (
@@ -556,7 +471,6 @@ export function LocationGlobe({ locations }: { locations: GlobeLocation[] }) {
               aria-pressed={active === index}
               onClick={() => select(index)}
             >
-              <span>0{index + 1}</span>
               {location.name}
             </button>
           ))}

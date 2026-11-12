@@ -297,8 +297,8 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
     <SiteFrame context={context}>
       <section className={`kw-place-hero place-${location.slug}`}>
         <div className="kw-shell kw-place-content">
-          <Link href="/explore" className="kw-place-breadcrumb">
-            KingsWord Everywhere <span>/</span> {location.region.toUpperCase()}
+          <Link href="/locations" className="kw-place-breadcrumb">
+            Our locations <span>/</span> {location.region}
           </Link>
           <div className="kw-place-main">
             <div className="kw-place-copy">
@@ -483,7 +483,7 @@ export function CinematicInformationPage({
           <h1>{titles[page]}</h1>
           <p>
             {page === "about"
-              ? "People of the Word. People of the Spirit. A family with a calling to bring joy to our world."
+              ? "Get to know what we believe, how we worship, and the people who serve our church."
               : page === "contact"
                 ? "A first visit, a prayer request, a new beginning. We would love to hear your story."
                 : "Helping the next generation know God, love His Word and discover who they are in Christ."}
@@ -566,7 +566,7 @@ export function CinematicInformationPage({
                   },
                   {
                     title: "Our purpose",
-                    body: "We equip people to serve faithfully, grow in grace and carry the love of Jesus into their world.",
+                    body: "We equip people to serve faithfully, grow in grace and carry the love of Jesus into their communities.",
                   },
                 ].map((value, index) => (
                   <article key={value.title}>
@@ -698,7 +698,6 @@ export function CinematicLocationsPage({
     <SiteFrame context={context}>
       <section className="kw-info-hero">
         <div className="kw-shell">
-          <p className="kw-kicker">KingsWord Everywhere</p>
           <h1>
             Find your <em>KingsWord church.</em>
           </h1>

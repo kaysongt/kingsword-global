@@ -12,7 +12,7 @@ import { LOCATIONS, locationHref, type PublicContext } from "@/lib/locations";
 export function CinematicDirectory({ context }: { context: PublicContext }) {
   return (
     <div className="kw-location-grid">
-      {LOCATIONS.map((location, index) => {
+      {LOCATIONS.map((location) => {
         const media = LOCATION_MEDIA[location.slug];
         return (
           <Link
@@ -28,7 +28,6 @@ export function CinematicDirectory({ context }: { context: PublicContext }) {
             />
             <div className="kw-card-top">
               <span>{location.region}</span>
-              <span>0{index + 1}</span>
             </div>
             <div className="kw-card-bottom">
               <p>{media.headline}</p>
@@ -52,7 +51,7 @@ export function TrainingFeature({ compact = false }: { compact?: boolean }) {
           <div>
             <p className="kw-kicker">BELIEVERS TRAINING</p>
             <h2>Give your faith a strong foundation.</h2>
-            <p>Seven modules. Study at your own pace, wherever you are.</p>
+            <p>Study Scripture, prayer and Christian living in seven self-paced modules.</p>
           </div>
           <Link
             href="/believers-training"
@@ -74,8 +73,7 @@ export function TrainingFeature({ compact = false }: { compact?: boolean }) {
             <em>the foundation up.</em>
           </h2>
           <p>
-            Build a faith that goes with you. Our seven-module Believers
-            Training programme is open to every location, at your own pace.
+            Study Scripture, prayer and Christian living in seven self-paced modules.
           </p>
           <Link
             href="/believers-training"
@@ -122,24 +120,21 @@ export function CinematicHome({ context }: { context: PublicContext }) {
     <div className="kw-site">
       <PublicNav context={context} />
       <main id="main-content">
-        <div className="kw-shell">
-          <LocationGlobe locations={locations} />
+        <div className="kw-home-hero">
+          <div className="kw-shell">
+            <LocationGlobe locations={locations} />
+          </div>
         </div>
         <section className="kw-statement">
           <div className="kw-shell">
             <Reveal>
-              <p className="kw-kicker">THIS IS KingsWord</p>
               <h2>
-                A worldwide church.
-                <br />
-                <span>Rooted in the Word.</span>
+                Rooted in the Word. <span>Led by the Spirit.</span>
               </h2>
             </Reveal>
             <div className="kw-statement-bottom">
               <p>
-                We are people of the Word and the Spirit. Across continents,
-                cultures and generations, we are raising a supernatural army —
-                equipped for purpose and bringing joy to our cities.
+                We worship together, learn from Scripture, and help each other put our faith into practice throughout the week.
               </p>
               <Link className="kw-text-link" href="/about">
                 Discover our story <ArrowUpRight size={20} />
@@ -151,11 +146,8 @@ export function CinematicHome({ context }: { context: PublicContext }) {
           <div className="kw-shell">
             <div className="kw-section-heading">
               <div>
-                <p className="kw-kicker">CHOOSE YOUR LOCATION</p>
                 <h2>
-                  Where will we
-                  <br />
-                  <em>meet you?</em>
+                  Find your <em>church.</em>
                 </h2>
               </div>
               <p>
@@ -192,16 +184,12 @@ export function CinematicHome({ context }: { context: PublicContext }) {
           <div className="kw-shell">
             <div className="kw-section-heading">
               <div>
-                <p className="kw-kicker">FROM OUR CHURCHES</p>
                 <h2>
-                  Take a moment.
-                  <br />
-                  <em>Press play.</em>
+                  Teaching and <em>worship.</em>
                 </h2>
               </div>
               <p>
-                Experience the Word and the Spirit through teaching and worship
-                from across our KingsWord family.
+                Watch a message or join in worship from home.
               </p>
             </div>
             <ChurchVideos
