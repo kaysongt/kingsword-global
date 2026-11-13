@@ -62,7 +62,18 @@ export default async function BelieversTrainingPage() {
         </div>
       </section>
 
-      <section className="page-shell py-10"><div className="rounded-2xl border border-[var(--line)] bg-[var(--paper-light)] p-7"><h2 className="text-2xl font-bold">Completed BBT online or at your local church?</h2><p className="mt-3 leading-7">Sign in to take the 50-question final assessment. Local-church students can request access without repeating the online course.</p><Link href="/final-assessment" className="button-primary mt-5">BBT final assessment</Link></div></section>
+      <section className="page-shell py-10" id="assessment">
+        <div className="rounded-2xl border border-[var(--line)] bg-[var(--paper-light)] p-7">
+          <h2 className="text-2xl font-bold">Completed BBT online or at your local church?</h2>
+          <p className="mt-3 leading-7">
+            Sign in to take the 50-question final assessment. Local-church students can request access without repeating the online course.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/final-assessment" className="button-primary">Access the final assessment</Link>
+            <Link href="/final-assessment/print" className="button-secondary">Printable assessment for staff</Link>
+          </div>
+        </div>
+      </section>
       <section id="experience" className="bg-[var(--paper-light)] py-24 md:py-32">
         <div className="page-shell">
           <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr]">

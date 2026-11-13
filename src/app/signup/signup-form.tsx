@@ -73,7 +73,7 @@ export function SignupForm({ next }: { next?: string }) {
         </p>
       )}
 
-      <FormButton pendingLabel="Creating your account…">Create account and start</FormButton>
+      <FormButton pendingLabel="Creating your account…">{next === "/final-assessment" ? "Create assessment account" : "Create account and start"}</FormButton>
 
       <p className="text-center text-xs leading-5 text-[var(--ink-soft)]/70">
         Already enrolled?{" "}

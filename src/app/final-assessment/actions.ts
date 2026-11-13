@@ -20,17 +20,26 @@ export async function requestFinalExam(form: FormData) {
   revalidatePath('/final-assessment');
 }
 
-export async function startFinalExam() {
+export async function startFinalExam(form: FormData) {
   const user = await requireUser();
   if (user.role !== 'STUDENT') redirect('/admin/final-assessment');
   const exam = await getFinalExam();
   if (!exam?.published) throw new Error('The final assessment is not available yet.');
   parseFinalQuestions(exam.questions);
-  const registration = await db.finalExamRegistration.upsert({ where: { examId_userId: { examId: exam.id, userId: user.id } }, create: { examId: exam.id, userId: user.id }, update: {} });
-  if (!await finalExamEligibility(user.id, registration.localApproved)) throw new Error('Complete the online course or ask your administrator to approve local-church access.');
+  const existing = await db.finalExamRegistration.findUnique({
+    where: { examId_userId: { examId: exam.id, userId: user.id } },
+  });
+  if (!await finalExamEligibility(user.id, existing?.localApproved ?? false)) throw new Error('Complete the online course or ask your administrator to approve local-church access.');
+  const church = existing?.church || z.string().trim().min(2).max(200).parse(form.get('church'));
+  const registration = await db.finalExamRegistration.upsert({
+    where: { examId_userId: { examId: exam.id, userId: user.id } },
+    create: { examId: exam.id, userId: user.id, church },
+    update: {},
+  });
   await db.$transaction(async tx => {
     // Updating the registration obtains a row lock, serializing simultaneous starts and approvals.
     const locked = await tx.finalExamRegistration.update({ where: { id: registration.id }, data: { version: { increment: 1 } } });
+    if (!locked.church) await tx.finalExamRegistration.update({ where: { id: locked.id }, data: { church } });
     const last = await tx.finalExamAttempt.findFirst({ where: { registrationId: registration.id }, orderBy: { number: 'desc' } });
     if (last && !last.submittedAt) return;
     if (last?.scorePct != null && last.scorePct >= last.passMark) throw new Error('You have already passed this assessment.');

@@ -9,7 +9,7 @@ for (const path of ['/', '/login', '/signup', '/believers-training', '/final-ass
   assert.equal(response.status, 200, `${path} must render`);
   assert.match(await response.text(), /<html/, `${path} must return HTML`);
 }
-for (const path of ['/dashboard', '/admin', '/admin/course', '/admin/final-assessment']) {
+for (const path of ['/dashboard', '/admin', '/admin/course', '/admin/final-assessment', '/final-assessment/print']) {
   const response = await fetch(base + path, { redirect: 'manual' });
   const html = await response.text();
   // App Router may stream the auth redirect after an initial 200 response.

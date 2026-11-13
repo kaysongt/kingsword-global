@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-assign-module-variable */
 import Link from "next/link";
+import { getTrainingVideo } from "@/lib/video-progress";
 import { redirectStaffToCourse } from "@/lib/staff-course";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, Clock3, LockKeyhole, MessageCircle } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -18,6 +19,7 @@ export default async function ModulePage({ params }: { params: Promise<{ moduleS
     return <div className="mx-auto max-w-3xl px-5 py-20"><Link href="/dashboard" className="button-quiet !px-0"><ArrowLeft size={16} /> Dashboard</Link><LockKeyhole className="mt-16 text-[var(--clay)]" size={32} /><h1 className="display mt-6 text-5xl font-medium">This module is still locked.</h1><p className="mt-5 text-base leading-8 text-[var(--ink-soft)]">Complete the lessons and checkpoint in the previous module first.</p></div>;
   }
 
+  const teaching = module.lessons.find((lesson) => getTrainingVideo(lesson.videoUrl));
   const allLessonsComplete = module.lessons.length > 0 && module.lessons.every((lesson) => lesson.isComplete);
   return (
     <div>
@@ -33,6 +35,19 @@ export default async function ModulePage({ params }: { params: Promise<{ moduleS
 
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 md:px-8 md:py-16 lg:grid-cols-[0.72fr_1.28fr]">
         <aside>
+          {teaching && isLessonSequentiallyUnlocked(module.lessons, teaching.id) && (
+            <section className="mb-8 rounded-2xl border border-[var(--line)] bg-[var(--paper-light)] p-5">
+              <h2 className="text-lg font-bold">Module video</h2>
+              <p className="mt-2 text-sm leading-6">Watch the teaching before moving on to the study material and graded checkpoint.</p>
+              <Link
+                href={`/dashboard/modules/${module.slug}/lessons/${teaching.slug}`}
+                className="button-primary mt-4"
+              >
+                {teaching.isComplete ? "Rewatch teaching" : teaching.watchedSeconds > 0 ? "Resume teaching" : "Watch teaching"}
+                <ArrowRight size={16} />
+              </Link>
+            </section>
+          )}
           <span className="eyebrow">By the end</span>
           <ul className="mt-7 grid gap-4">
             {(Array.isArray(module.objectives) ? module.objectives : []).map((objective, index) => <li key={index} className="flex gap-3 text-sm leading-6 text-[var(--ink-soft)]"><span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--sage-light)] text-[var(--forest)]"><Check size={12} strokeWidth={3} /></span>{String(objective)}</li>)}

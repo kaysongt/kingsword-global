@@ -50,8 +50,6 @@ export async function SiteFooter({
               Children’s ministry
             </Link>
             <Link href="/believers-training">Believers Training</Link>
-            <Link href="/login">Student login</Link>
-            <Link href="/ministers/login">Ministers Login</Link>
             <Link href={localHref(context, "contact")}>Contact</Link>
             {location?.giveUrl && (
               <a

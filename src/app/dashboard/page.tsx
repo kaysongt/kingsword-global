@@ -17,6 +17,7 @@ export default async function DashboardPage() {
         <span className="eyebrow">No active enrollment</span>
         <h1 className="display mt-6 text-6xl leading-[0.92] font-medium">Your account is ready. Your program access is not active yet.</h1>
         <p className="mt-6 text-base leading-8 text-[var(--ink-soft)]">Ask the program administrator to activate or restore your enrollment.</p>
+        <Link href="/final-assessment" className="button-secondary mt-8">BBT final assessment</Link>
         {user.role !== "STUDENT" && <Link href="/admin" className="button-primary mt-8"><ShieldCheck size={17} /> Open administration</Link>}
       </div>
     );

@@ -17,7 +17,6 @@ export async function PublicNav({
       : []),
     { label: "Believers Training", href: "/believers-training" },
     { label: "Connect", href: localHref(context, "contact") },
-    { label: "Ministers Login", href: "/ministers/login" },
   ];
   return (
     <header className="kw-nav">
@@ -51,7 +50,7 @@ export async function PublicNav({
               {link.label}
             </Link>
           ))}
-          {location?.giveUrl ? (
+          {location?.giveUrl && (
             <a
               className="kw-nav-action"
               href={location.giveUrl}
@@ -60,10 +59,6 @@ export async function PublicNav({
             >
               Give <ArrowUpRight size={14} />
             </a>
-          ) : (
-            <Link className="kw-nav-action" href="/login">
-              Student login <ArrowUpRight size={14} />
-            </Link>
           )}
         </nav>
         <details className="kw-nav-mobile">
@@ -76,8 +71,6 @@ export async function PublicNav({
                 {link.label}
               </Link>
             ))}
-            <Link href="/signup">Start Believers Training</Link>
-            <Link href="/login">Student login</Link>
             {location?.giveUrl && (
               <a
                 href={location.giveUrl}

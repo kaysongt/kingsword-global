@@ -8,19 +8,7 @@ import { hashPassword } from "@/lib/password";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { signupSchema } from "@/lib/validations";
 
-/**
- * Open enrolment: create the account, enrol it, sign it in, and land the person
- * on the first lesson.
- *
- * This is a second way in, not a replacement for the admissions queue. An admin
- * can still approve an application and hand out an activation link; that path is
- * for people the church invites. This path is for the person who found the site
- * at eleven at night and wants to start.
- *
- * The whole thing is one transaction. A user row without an enrolment would be
- * an account that can sign in and see an empty programme, which is a worse
- * failure than the signup simply erroring.
- */
+// Create the account and any course enrollment in the same transaction.
 export async function signUp(_previous: ActionState, formData: FormData): Promise<ActionState> {
   const parsed = signupSchema.safeParse({
     fullName: formData.get("fullName"),
@@ -42,6 +30,7 @@ export async function signUp(_previous: ActionState, formData: FormData): Promis
   if (parsed.data.website) redirect("/dashboard");
 
   const { fullName, email, password } = parsed.data;
+  const examOnly = formData.get("next") === "/final-assessment";
 
   const existing = await db.user.findUnique({ where: { email }, select: { id: true } });
   if (existing) {
@@ -55,12 +44,12 @@ export async function signUp(_previous: ActionState, formData: FormData): Promis
     };
   }
 
-  const program = await db.program.findUnique({
+  const program = examOnly ? null : await db.program.findUnique({
     where: { slug: SITE_CONFIG.slug },
     select: { id: true, isPublished: true },
   });
 
-  if (!program?.isPublished) {
+  if (!examOnly && !program?.isPublished) {
     return {
       status: "error",
       message: "Enrolment is closed at the moment. Please contact the church office.",
@@ -75,14 +64,16 @@ export async function signUp(_previous: ActionState, formData: FormData): Promis
       select: { id: true },
     });
 
-    await tx.enrollment.create({
-      data: { userId: created.id, programId: program.id, status: "ACTIVE" },
-    });
+    if (!examOnly && program) {
+      await tx.enrollment.create({
+        data: { userId: created.id, programId: program.id, status: "ACTIVE" },
+      });
+    }
 
     await tx.auditLog.create({
       data: {
         actorId: created.id,
-        action: "enrollment.self_signup",
+        action: examOnly ? "final_exam.self_signup" : "enrollment.self_signup",
         entityType: "User",
         entityId: created.id,
         metadata: { email },
@@ -93,5 +84,5 @@ export async function signUp(_previous: ActionState, formData: FormData): Promis
   });
 
   await createSession(user.id);
-  redirect(formData.get("next") === "/final-assessment" ? "/final-assessment" : "/dashboard");
+  redirect(examOnly ? "/final-assessment" : "/dashboard");
 }

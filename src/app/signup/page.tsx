@@ -18,8 +18,9 @@ const PROMISES = [
 
 export default async function SignupPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const { next } = await searchParams;
+  const examOnly = next === "/final-assessment";
   return (
-    <main className="grid min-h-screen lg:grid-cols-[1fr_1fr]">
+    <main className={examOnly ? "grid min-h-screen" : "grid min-h-screen lg:grid-cols-[1fr_1fr]"}>
       <section className="flex flex-col justify-center px-6 py-14 md:px-14">
         <div className="mx-auto w-full max-w-md">
           <div className="flex items-center justify-between gap-4">
@@ -35,11 +36,12 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
           <div className="mt-16">
             <span className="eyebrow">Believers Training</span>
             <h1 className="display mt-5 text-5xl leading-[0.95] font-medium tracking-[-0.03em]">
-              Start today.
+              {examOnly ? "Create your assessment account." : "Start today."}
             </h1>
             <p className="mt-5 text-sm leading-7 text-[var(--ink-soft)]">
-              Create your account and module one opens immediately. No application, no waiting for
-              approval.
+              {examOnly
+                ? "After creating your account, request access using the name of the church where you completed BBT."
+                : "Create your account and start module one immediately."}
             </p>
           </div>
 
@@ -49,7 +51,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
         </div>
       </section>
 
-      <section className="relative hidden overflow-hidden bg-[var(--forest-deep)] p-14 text-white lg:block">
+      <section className={examOnly ? "hidden" : "relative hidden overflow-hidden bg-[var(--forest-deep)] p-14 text-white lg:block"}>
         <div
           className="absolute top-[-12rem] right-[-10rem] h-[38rem] w-[38rem] rounded-full border-[5rem] border-[var(--sun)]/15"
           aria-hidden="true"

@@ -69,7 +69,7 @@ try {
     source.replaceAll('"/geo/', `"${basePath}/geo/`));
 
   // Give links to the protected app a clear destination in the review copy.
-  for (const route of ["login", "signup", "apply", "final-assessment", "ministers/login"]) {
+  for (const route of ["login", "signup", "apply", "final-assessment", "final-assessment/print"]) {
     const directory = join(stage, "src/app", route);
     await mkdir(directory, { recursive: true });
     await writeFile(join(directory, "page.tsx"), `import Link from "next/link";
@@ -78,7 +78,7 @@ export default function Page() {
   return (
     <main className="page-shell max-w-3xl py-24">
       <h1 className="display text-5xl">KingsWord website preview</h1>
-      <p className="my-6">Student and minister accounts are available through the live training portal.</p>
+      <p className="my-6">This is the public review copy. Use the live Believers Training portal for student accounts, online assessments and staff printing.</p>
       <Link href="/believers-training" className="button-primary">Explore Believers Training</Link>
     </main>
   );
