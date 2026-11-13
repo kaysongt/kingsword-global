@@ -282,6 +282,7 @@ function CommunityGallery({ context }: { context: PublicContext }) {
 export function CinematicLocationHome({ context }: { context: PublicContext }) {
   const location = context.location!;
   const media = LOCATION_MEDIA[location.slug];
+  const memberPortalUrl = process.env.NEXT_PUBLIC_CHICAGO_MEMBER_PORTAL_URL;
   return (
     <SiteFrame context={context}>
       <section className={`kw-place-hero place-${location.slug}`}>
@@ -313,6 +314,11 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
                 <a href="#watch" className="kw-button">
                   <Play size={15} /> Experience a service
                 </a>
+                {location.slug === "chicago" && memberPortalUrl?.startsWith("https://") && (
+                  <a href={memberPortalUrl} className="kw-button">
+                    Member portal <ArrowUpRight size={18} aria-hidden="true" />
+                  </a>
+                )}
               </div>
               <div className="kw-hero-service">
                 <span className="kw-kicker">
