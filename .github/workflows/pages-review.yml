@@ -24,6 +24,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node scripts/build-pages-review.mjs
+        env:
+          NEXT_PUBLIC_CHICAGO_MEMBER_PORTAL_URL: ${{ vars.CHICAGO_MEMBER_PORTAL_URL }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: out
