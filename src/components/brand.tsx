@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NETWORK } from "@/lib/locations";
+import { networkHomeHref } from "@/lib/public-context";
 
 /**
  * The church wordmark.
@@ -8,22 +9,20 @@ import { NETWORK } from "@/lib/locations";
  * church states as its mission — rendered in type colours rather than as an
  * image, so it stays crisp at any size and needs no asset pipeline.
  */
-export function Brand({
+export async function Brand({
   compact = false,
-  href = "/",
   inverted = false,
   name = NETWORK.name,
   tagline = NETWORK.tagline,
 }: {
   compact?: boolean;
-  href?: string;
   inverted?: boolean;
   name?: string;
   tagline?: string;
 }) {
   return (
     <Link
-      href={href}
+      href={await networkHomeHref()}
       className="inline-flex items-center gap-3 no-underline"
       aria-label={`${name} home`}
     >

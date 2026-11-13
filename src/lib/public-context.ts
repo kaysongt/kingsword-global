@@ -10,6 +10,12 @@ export const getPublicContext = cache(async (): Promise<PublicContext> => {
   return { location, basePath: "", customDomain: Boolean(location) || host === "kingsword.org" || host === "www.kingsword.org" };
 });
 
+export async function networkHomeHref() {
+  // Campus domains serve their local homepage at the root.
+  const { location } = await getPublicContext();
+  return location ? "/explore" : "/";
+}
+
 export function publicMetadata(context: PublicContext, page = ""): Metadata {
   const name = context.location ? `KingsWord ${context.location.name}` : NETWORK.name;
   const title = page ? `${page} | ${name}` : name;

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Menu } from "lucide-react";
-import { getPublicContext } from "@/lib/public-context";
+import { getPublicContext, networkHomeHref } from "@/lib/public-context";
 import { localHref, type PublicContext } from "@/lib/locations";
 
 export async function PublicNav({
@@ -25,13 +25,9 @@ export async function PublicNav({
       </a>
       <div className="kw-shell kw-nav-inner">
         <Link
-          href={
-            !location && context.customDomain ? "/explore" : localHref(context)
-          }
+          href={await networkHomeHref()}
           className="kw-brand"
-          aria-label={
-            location ? `KingsWord ${location.name} home` : "KingsWord home"
-          }
+          aria-label="KingsWord home"
         >
           <Image
             src="/brand/kingsword-complete.png"
