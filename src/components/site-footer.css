@@ -1,0 +1,29 @@
+/* Compact spacing for the shared public footer. */
+.kw-footer.kw-footer-compact {
+  padding-top: 28px;
+}
+.kw-footer-compact .kw-footer-main {
+  gap: 16px clamp(20px, 4vw, 36px);
+  padding-bottom: 24px;
+}
+.kw-footer-compact .kw-footer-brand img {
+  width: 128px;
+}
+.kw-footer-compact .kw-footer-brand p {
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.kw-footer-compact nav {
+  gap: 4px;
+}
+.kw-footer-compact nav > p {
+  margin: 0 0 4px;
+}
+.kw-footer-compact nav a {
+  justify-self: start;
+  padding-block: 3px;
+}
+.kw-footer-compact .kw-footer-bottom {
+  gap: 6px 16px;
+  padding-block: 12px;
+}

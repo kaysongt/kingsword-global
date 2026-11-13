@@ -1,3 +1,4 @@
+import "./site-footer.css";
 import Image from "next/image";
 import Link from "next/link";
 import { getPublicContext } from "@/lib/public-context";
@@ -15,7 +16,7 @@ export async function SiteFooter({
   const context = supplied ?? (await getPublicContext());
   const { location } = context;
   return (
-    <footer className="kw-footer">
+    <footer className="kw-footer kw-footer-compact">
       <div className="kw-shell">
         <div className="kw-footer-main">
           <div className="kw-footer-brand">
