@@ -23,7 +23,6 @@ import {
   DALLAS_LINKS,
   localHref,
   mapHref,
-  NETWORK,
   phoneHref,
   type PublicContext,
 } from "@/lib/locations";
@@ -174,16 +173,6 @@ export function VisitSection({ context }: { context: PublicContext }) {
                 </nav>
               </article>
             ))}
-            {location.slug === "nigeria" && (
-              <a
-                href={NETWORK.directoryUrl}
-                className="kw-text-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Explore every Nigeria congregation <ArrowUpRight size={17} />
-              </a>
-            )}
           </div>
         </div>
         {location.slug === "dallas" && (
@@ -517,8 +506,8 @@ export function CinematicInformationPage({
                     <p>
                       KingsWord Dallas began in February 2013 with four people
                       praying together in a home. Today the church serves the
-                      Dallas–Fort Worth area and belongs to the KingsWord
-                      Everywhere and The New network.
+                      Dallas–Fort Worth area as part of KingsWord Ministries
+                      International.
                     </p>
                     <p>
                       Its mission is to help people live by Scripture, follow

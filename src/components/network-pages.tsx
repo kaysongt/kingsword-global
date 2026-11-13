@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 import { PublicNav } from "@/components/public-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { LOCATIONS, NETWORK, localHref, locationHref, mapHref, phoneHref, type PublicContext } from "@/lib/locations";
+import { LOCATIONS, localHref, locationHref, mapHref, phoneHref, type PublicContext } from "@/lib/locations";
 
 export function LocationDirectory({ context }: { context: PublicContext }) {
   return (
@@ -68,7 +68,6 @@ function VisitDetails({ context }: { context: PublicContext }) {
         {location.email && <a href={`mailto:${location.email}`} className="mt-6 block break-all text-base font-bold underline">{location.email}</a>}
       </div>
       <div className="grid content-start gap-4">{location.congregations.map((church) => <article key={church.name} className="rounded-2xl border border-[var(--line)] bg-white p-7"><h3 className="display text-2xl font-semibold">{church.name}</h3><p className="mt-4 flex gap-3 text-base leading-7 text-[var(--ink-soft)]"><MapPin className="mt-1 shrink-0" size={18} />{church.address}</p><div className="mt-5 flex flex-wrap gap-x-6 gap-y-4 text-sm font-bold"><a href={mapHref(church.address)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 underline">Get directions <ArrowUpRight size={16} /></a><a href={phoneHref(church.phone)} className="underline">{church.phone}</a></div></article>)}
-        {location.slug === "nigeria" && <a href={NETWORK.directoryUrl} target="_blank" rel="noopener noreferrer" className="button-secondary">See all Nigeria congregations <ArrowUpRight size={17} /></a>}
       </div>
     </div>
   );
