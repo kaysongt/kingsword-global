@@ -54,7 +54,6 @@ const MODULES = [
 
 export default function HomePage({ context }: { context: PublicContext }) {
   const { address, services } = CHURCH;
-  const memberPortalUrl = process.env.NEXT_PUBLIC_CHICAGO_MEMBER_PORTAL_URL;
 
   return (
     <main className="overflow-hidden">
@@ -112,14 +111,6 @@ export default function HomePage({ context }: { context: PublicContext }) {
               >
                 <Play size={16} /> Watch a service
               </a>
-              {memberPortalUrl?.startsWith("https://") && (
-                <a
-                  href={memberPortalUrl}
-                  className="button-secondary !border-white/30 !bg-white/8 !text-white"
-                >
-                  Member portal <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-              )}
             </div>
           </div>
         </div>
