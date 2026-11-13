@@ -4,12 +4,14 @@ const base = 'http://localhost:3000';
 const health = await fetch(`${base}/api/health`);
 assert.equal(health.status, 200, 'Database readiness must succeed');
 assert.equal((await health.json()).database, 'connected');
-for (const path of ['/', '/login', '/signup', '/believers-training', '/final-assessment']) {
+for (const path of ['/', '/login', '/signup', '/believers-training', '/final-assessment', '/final-assessment/print']) {
   const response = await fetch(base + path);
   assert.equal(response.status, 200, `${path} must render`);
-  assert.match(await response.text(), /<html/, `${path} must return HTML`);
+  const html = await response.text();
+  assert.match(html, /<html/, `${path} must return HTML`);
+  if (path.endsWith("/print")) assert.doesNotMatch(html, /NEXT_REDIRECT|correctIndex|Correct answer/);
 }
-for (const path of ['/dashboard', '/admin', '/admin/course', '/admin/final-assessment', '/final-assessment/print']) {
+for (const path of ['/dashboard', '/admin', '/admin/course', '/admin/final-assessment']) {
   const response = await fetch(base + path, { redirect: 'manual' });
   const html = await response.text();
   // App Router may stream the auth redirect after an initial 200 response.

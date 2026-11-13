@@ -70,7 +70,7 @@ export default async function BelieversTrainingPage() {
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href="/final-assessment" className="button-primary">Access the final assessment</Link>
-            <Link href="/final-assessment/print" className="button-secondary">Printable assessment for staff</Link>
+            <Link href="/final-assessment/print" className="button-secondary">Printable assessment</Link>
           </div>
         </div>
       </section>

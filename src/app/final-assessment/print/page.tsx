@@ -1,33 +1,21 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { PrintButton } from "@/components/print-button";
-import { getCurrentUser } from "@/lib/auth";
 import { getFinalExam } from "@/lib/final-exam-data";
 import { parseFinalQuestions, publicQuestions } from "@/lib/final-exam";
 
-export const metadata = { title: "Printable BBT Final Assessment" };
+export const metadata = { title: "Printable BBT Final Assessment", robots: { index: false } };
+
+export const dynamic = "force-dynamic";
 
 export default async function PrintableAssessmentPage() {
-  const user = await getCurrentUser();
-  if (!user) redirect("/login?next=/final-assessment/print");
-  if (user.role !== "ADMIN" && user.role !== "INSTRUCTOR") {
-    return (
-      <main className="page-shell py-16">
-        <h1 className="display text-4xl">Printable BBT Final Assessment</h1>
-        <p className="my-5">Ask your church’s BBT coordinator for a paper copy.</p>
-        <Link href="/final-assessment" className="button-primary">Go to the online assessment</Link>
-      </main>
-    );
-  }
-
   const exam = await getFinalExam();
-  if (!exam) return <main className="page-shell py-16">The final assessment has not been imported yet.</main>;
+  if (!exam?.published) return <main className="page-shell py-16">The printable assessment is not available yet.</main>;
   const questions = publicQuestions(parseFinalQuestions(exam.questions));
 
   return (
     <main className="mx-auto max-w-3xl bg-white px-5 py-8 text-black print:max-w-none print:p-0">
       <nav className="mb-8 flex flex-wrap items-center gap-3 print:hidden" aria-label="Print controls">
-        <Link href="/admin/final-assessment" className="button-secondary">Assessment administration</Link>
+        <Link href="/believers-training#assessment" className="button-secondary">Believers Training</Link>
         <PrintButton label="Print assessment" />
       </nav>
       <h1 className="text-3xl font-bold">BBT Final Assessment</h1>
