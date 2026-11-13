@@ -59,7 +59,7 @@ try {
     source.replace("import { locationBySlug,", "import { LOCATIONS, locationBySlug,") +
     `\nexport function generateStaticParams() {
       return LOCATIONS.flatMap(({ slug }) =>
-        [[], ["about"], ["contact"], ["children"]].map((page) => ({ slug, page })),
+        [[], ["about"], ["contact"], ["children"], ...(slug === "chicago" ? [["members"], ["groups"], ["gatherings"], ["team"]] : [])].map((page) => ({ slug, page })),
       );
     }\n`);
   await edit("src/lib/public-program.ts", (source) => source

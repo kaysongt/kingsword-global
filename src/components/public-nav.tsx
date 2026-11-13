@@ -9,7 +9,14 @@ export async function PublicNav({
 }: { context?: PublicContext } = {}) {
   const context = supplied ?? (await getPublicContext());
   const { location } = context;
-  const links = [
+  const links = location?.slug === "chicago" ? [
+    { label: "Chicago home", href: localHref(context) },
+    { label: "Visit", href: localHref(context, "#visit") },
+    { label: "Our story", href: localHref(context, "about") },
+    { label: "Groups", href: localHref(context, "groups") },
+    { label: "Gatherings", href: localHref(context, "gatherings") },
+    { label: "My Chicago", href: localHref(context, "members") },
+  ] : [
     { label: "Our story", href: localHref(context, "about") },
     { label: "Our locations", href: "/locations" },
     ...(location

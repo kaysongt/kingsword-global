@@ -1,0 +1,29 @@
+.chi-next { background: #e5ebef; }
+.chi-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; }
+.chi-card { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; padding: 34px; background: var(--kw-surface); border: 1px solid var(--kw-line); border-radius: 12px; }
+a.chi-card { transition: border-color .2s, transform .2s; }
+a.chi-card:hover { border-color: var(--kw-accent); transform: translateY(-3px); }
+.chi-card > svg { color: var(--kw-accent); }
+.chi-card h3,.chi-note h3,.chi-support h3,.chi-steps h3 { font-size: 24px; line-height: 1.2; margin: 0; }
+.chi-card h2 { font-size: 42px; margin: 0; }
+.chi-card p,.chi-feature p,.chi-steps p,.chi-support p { color: var(--kw-muted); line-height: 1.8; margin: 0; }
+.chi-card .kw-text-link { margin-top: auto; }
+.chi-hero > .kw-shell > .kw-text-link { margin-bottom: 35px; }
+.chi-subnav { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+.chi-subnav a { padding:12px 20px; border:1px solid #bac9da; border-radius:99px; font-size:14px; font-weight:700; }
+.chi-subnav a[aria-current="page"] { background:var(--kw-accent); color:white; border-color:var(--kw-accent); }
+.chi-feature { display:grid; grid-template-columns:1.4fr 1fr; gap:70px; align-items:start; }
+.chi-feature h2 { font-size:clamp(32px,4vw,52px); line-height:1.12; margin:20px 0; }
+.chi-feature .kw-button { margin-top:26px; }
+.chi-note { background:#e4ebf3; padding:32px; border-radius:12px; display:flex; flex-direction:column; align-items:flex-start; gap:20px; }
+.chi-note .kw-button { margin-top:0; }
+.chi-spaced { margin-top:64px; }
+.chi-support { display:flex; align-items:center; justify-content:space-between; gap:32px; border-top:1px solid var(--kw-line); margin-top:50px; padding:40px 0; }
+.chi-support p { max-width:680px; margin-top:12px; }
+.chi-support .kw-button { flex-shrink:0; }
+.chi-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px; }
+.chi-steps span { display:block; font-size:42px; font-weight:800; color:var(--kw-accent); margin-bottom:20px; }
+.chi-steps p { margin-top:16px; }
+@media(max-width:900px) { .chi-feature { gap:32px; } .chi-grid { grid-template-columns:1fr; } .chi-support { align-items:flex-start; flex-direction:column; } }
+@media(max-width:650px) { .chi-feature,.chi-steps { grid-template-columns:1fr; } .chi-card,.chi-note { padding:25px; } .chi-spaced { margin-top:40px; } .chi-subnav a { padding:10px 15px; } }
+@media(prefers-reduced-motion:reduce) { a.chi-card { transition:none; } a.chi-card:hover { transform:none; } }

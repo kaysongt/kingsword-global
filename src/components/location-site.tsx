@@ -9,6 +9,7 @@ import {
   MapPin,
   Play,
 } from "lucide-react";
+import { ChicagoNextSteps } from "@/components/chicago-community";
 import { PublicNav } from "@/components/public-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { Reveal } from "@/components/reveal";
@@ -71,7 +72,7 @@ const LEADERS: Record<
   ],
 };
 
-function SiteFrame({
+export function SiteFrame({
   context,
   children,
 }: {
@@ -252,7 +253,7 @@ function CommunityGallery({ context }: { context: PublicContext }) {
             {
               name: "Membership & small groups",
               text: "Ask about membership and small groups.",
-              path: "contact",
+              path: location.slug === "chicago" ? "groups" : "contact",
             },
             {
               name: "Children & families",
@@ -262,7 +263,7 @@ function CommunityGallery({ context }: { context: PublicContext }) {
             {
               name: "Join a serving team",
               text: "Connect with the team and explore serving.",
-              path: "contact",
+              path: location.slug === "chicago" ? "members" : "contact",
             },
           ].map((item) => (
             <Link key={item.name} href={localHref(context, item.path)}>
@@ -313,6 +314,11 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
                 <a href="#watch" className="kw-button">
                   <Play size={15} /> Experience a service
                 </a>
+                {location.slug === "chicago" && (
+                  <Link href={localHref(context, "members")} className="kw-button">
+                    My Chicago <ArrowUpRight size={18} aria-hidden="true" />
+                  </Link>
+                )}
               </div>
               <div className="kw-hero-service">
                 <span className="kw-kicker">
@@ -423,6 +429,7 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
           )}
         </div>
       </section>
+      {location.slug === "chicago" && <ChicagoNextSteps context={context} />}
       <CommunityGallery context={context} />
       <VisitSection context={context} />
       <TrainingFeature compact />
@@ -480,7 +487,10 @@ export function CinematicInformationPage({
         </div>
       </section>
       {page === "contact" ? (
-        <VisitSection context={context} />
+        <>
+          <VisitSection context={context} />
+          {location?.slug === "chicago" && <ChicagoNextSteps context={context} />}
+        </>
       ) : page === "about" ? (
         <>
           <section className="kw-section">
