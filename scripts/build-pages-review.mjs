@@ -6,6 +6,8 @@ import { join, resolve } from "node:path";
 const root = resolve(import.meta.dirname, "..");
 const output = join(root, "out");
 const stage = await mkdtemp(join(tmpdir(), "kingsword-pages-"));
+const portalOrigin = "https://seven-module-lms-beta.vercel.app";
+const portalRoutes = new Set(["/login", "/signup", "/apply", "/final-assessment", "/final-assessment/print"]);
 const basePath = process.env.PAGES_BASE_PATH ?? "/seven-module-lms";
 if (!/^\/[a-z0-9-]+$/i.test(basePath)) throw new Error("Invalid GitHub Pages base path.");
 
@@ -63,14 +65,18 @@ try {
     .replace('import { db } from "@/lib/db";\n', "")
     .replace(/  try \{[\s\S]*$/, "  return fallbackProgram;\n}\n"));
   for (const page of ["believers-training", "curriculum"]) {
-    await edit(`src/app/${page}/page.tsx`, (source) => source.replace('export const dynamic = "force-dynamic";\n', ""));
+    await edit(`src/app/${page}/page.tsx`, (source) => source
+      .replace('export const dynamic = "force-dynamic";\n', "")
+      .replace(/href="(\/[^"]+)"/g, (attribute, route) =>
+        portalRoutes.has(route) ? `href="${portalOrigin}${route}"` : attribute,
+      ));
   }
   await edit("src/components/location-globe.tsx", (source) =>
     source.replaceAll('"/geo/', `"${basePath}/geo/`));
 
   // Give links to the protected app a clear destination in the review copy.
-  for (const route of ["login", "signup", "apply", "final-assessment", "final-assessment/print"]) {
-    const directory = join(stage, "src/app", route);
+  for (const route of portalRoutes) {
+    const directory = join(stage, "src/app", route.slice(1));
     await mkdir(directory, { recursive: true });
     await writeFile(join(directory, "page.tsx"), `import Link from "next/link";
 
@@ -78,8 +84,8 @@ export default function Page() {
   return (
     <main className="page-shell max-w-3xl py-24">
       <h1 className="display text-5xl">KingsWord website preview</h1>
-      <p className="my-6">This is the public review copy. Use the live Believers Training portal for student accounts, online assessments and staff printing.</p>
-      <Link href="/believers-training" className="button-primary">Explore Believers Training</Link>
+      <p className="my-6">Continue to the live Believers Training portal.</p>
+      <Link href="${portalOrigin}${route}" className="button-primary">Continue to the live portal</Link>
     </main>
   );
 }
