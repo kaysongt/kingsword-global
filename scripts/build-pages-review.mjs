@@ -8,7 +8,8 @@ const output = join(root, "out");
 const stage = await mkdtemp(join(tmpdir(), "kingsword-pages-"));
 const portalOrigin = "https://seven-module-lms-beta.vercel.app";
 const portalRoutes = new Set(["/login", "/signup", "/apply", "/final-assessment", "/final-assessment/print"]);
-const basePath = process.env.PAGES_BASE_PATH ?? "/seven-module-lms";
+const repositoryName = process.env.GITHUB_REPOSITORY?.split("/").at(-1) || "kingsword-global";
+const basePath = process.env.PAGES_BASE_PATH ?? `/${repositoryName}`;
 if (!/^\/[a-z0-9-]+$/i.test(basePath)) throw new Error("Invalid GitHub Pages base path.");
 
 async function edit(path, transform) {
