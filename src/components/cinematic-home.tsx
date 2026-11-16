@@ -43,67 +43,6 @@ export function CinematicDirectory({ context }: { context: PublicContext }) {
   );
 }
 
-export function TrainingFeature({ compact = false }: { compact?: boolean }) {
-  if (compact)
-    return (
-      <section className="kw-training-compact">
-        <div className="kw-shell">
-          <div>
-            <p className="kw-kicker">BELIEVERS TRAINING</p>
-            <h2>Give your faith a strong foundation.</h2>
-            <p>Study Scripture, prayer and Christian living in seven self-paced modules.</p>
-          </div>
-          <Link
-            href="/believers-training"
-            className="kw-button kw-button-light"
-          >
-            See the programme <ArrowUpRight size={18} />
-          </Link>
-        </div>
-      </section>
-    );
-  return (
-    <section className="kw-training">
-      <div className="kw-shell kw-training-inner">
-        <div>
-          <p className="kw-kicker">BUILD YOUR UNDERSTANDING</p>
-          <h2>
-            Faith, from
-            <br />
-            <em>the foundation up.</em>
-          </h2>
-          <p>
-            Study Scripture, prayer and Christian living in seven self-paced modules.
-          </p>
-          <Link
-            href="/believers-training"
-            className="kw-button kw-button-light"
-          >
-            Explore Believers Training <ArrowUpRight size={18} />
-          </Link>
-        </div>
-        <div className="kw-training-list">
-          {[
-            "The New Covenant",
-            "Identity in Christ",
-            "The Word: The Agent of Change",
-            "The Ministry of the Holy Spirit",
-            "Spiritual Authority and Prayer",
-            "Purpose and Calling",
-            "Stewardship and Missional Lifestyle",
-          ].map((title, i) => (
-            <div key={title}>
-              <span>0{i + 1}</span>
-              <p>{title}</p>
-              <ArrowUpRight size={16} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function CinematicHome({ context }: { context: PublicContext }) {
   const locations = LOCATIONS.map((location) => ({
     slug: location.slug,
@@ -200,7 +139,6 @@ export function CinematicHome({ context }: { context: PublicContext }) {
             />
           </div>
         </section>
-        <TrainingFeature />
       </main>
       <SiteFooter context={context} />
     </div>

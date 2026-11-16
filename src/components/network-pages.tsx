@@ -19,17 +19,6 @@ export function LocationDirectory({ context }: { context: PublicContext }) {
   );
 }
 
-function TrainingInvitation() {
-  return (
-    <section className="bg-[var(--forest)] py-20 text-white">
-      <div className="page-shell grid items-center gap-10 md:grid-cols-[1.5fr_1fr]">
-        <div><p className="text-sm font-bold tracking-widest text-[var(--sun-soft)] uppercase">Believers Training</p><h2 className="display mt-5 text-4xl leading-tight md:text-5xl">One faith. A deeper foundation.</h2><p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">Seven modules in covenant, identity, Scripture, the Holy Spirit, prayer, purpose and stewardship. Grow at your own pace, wherever you call home.</p></div>
-        <div className="flex flex-wrap gap-3 md:justify-end"><Link href="/believers-training" className="button-primary !border-[var(--sun)] !bg-[var(--sun)] !text-[var(--forest-deep)]">Explore the programme <ArrowRight size={18} /></Link><Link href="/login" className="button-secondary !border-white/30 !bg-transparent !text-white">Student login</Link></div>
-      </div>
-    </section>
-  );
-}
-
 export function NetworkHome({ context }: { context: PublicContext }) {
   return (
     <><PublicNav context={context} /><main id="main-content">
@@ -49,13 +38,12 @@ export function NetworkHome({ context }: { context: PublicContext }) {
         <div className="border-t border-white/20"><div className="page-shell flex flex-wrap gap-x-8 gap-y-3 py-6 text-sm font-bold text-white/80">{LOCATIONS.map((location) => <Link key={location.slug} href={locationHref(location, context.customDomain)}>{location.name}</Link>)}</div></div>
       </section>
       <section id="locations" className="scroll-mt-8 py-20 md:py-28"><div className="page-shell"><p className="eyebrow">Find your community</p><div className="mb-12 mt-5 flex flex-wrap items-end justify-between gap-6"><h2 className="display max-w-2xl text-5xl leading-tight md:text-6xl">Different places.<br />The same welcome.</h2><p className="max-w-sm text-lg leading-8 text-[var(--ink-soft)]">Choose a location for service times, directions and ways to connect.</p></div><LocationDirectory context={context} /></div></section>
-      <TrainingInvitation />
     </main><SiteFooter context={context} /></>
   );
 }
 
 export function LocationsPage({ context }: { context: PublicContext }) {
-  return <><PublicNav context={context} /><main id="main-content" className="page-shell py-20"><p className="eyebrow">KingsWord everywhere</p><h1 className="display mt-6 text-5xl md:text-7xl">Find your church family.</h1><p className="mt-6 mb-12 max-w-2xl text-lg leading-8 text-[var(--ink-soft)]">Worship with us in Chicago, Nigeria, Calgary, Dallas or London. Every location connects you to the same Believers Training programme.</p><LocationDirectory context={context} /></main><SiteFooter context={context} /></>;
+  return <><PublicNav context={context} /><main id="main-content" className="page-shell py-20"><p className="eyebrow">KingsWord everywhere</p><h1 className="display mt-6 text-5xl md:text-7xl">Find your church family.</h1><p className="mt-6 mb-12 max-w-2xl text-lg leading-8 text-[var(--ink-soft)]">Worship with us in Chicago, Nigeria, Calgary, Dallas or London.</p><LocationDirectory context={context} /></main><SiteFooter context={context} /></>;
 }
 
 function VisitDetails({ context }: { context: PublicContext }) {
@@ -79,7 +67,6 @@ export function LocationHome({ context }: { context: PublicContext }) {
     <section className="bg-[var(--forest-deep)] py-20 text-white md:py-28"><div className="page-shell"><Link href="/locations" className="text-sm font-bold text-white/70 underline">KingsWord everywhere / {location.region}</Link><p className="mt-12 text-sm font-bold tracking-widest text-[var(--sun-soft)] uppercase">{location.tagline}</p><h1 className="display mt-6 text-[clamp(3.5rem,10vw,8rem)] leading-none tracking-[-0.05em]">KingsWord<br /><span className="italic text-[var(--sun-soft)]">{location.name}.</span></h1><p className="mt-8 max-w-2xl text-lg leading-8 text-white/75">{location.description}</p><div className="mt-9 flex flex-wrap gap-3"><Link href={localHref(context, "#visit")} className="button-primary !border-[var(--sun)] !bg-[var(--sun)] !text-[var(--forest-deep)]">{location.slug === "nigeria" ? "Find a congregation" : "Plan your visit"} <ArrowRight size={18} /></Link>{location.watchUrl && <a href={location.watchUrl} target="_blank" rel="noopener noreferrer" className="button-secondary !border-white/30 !bg-transparent !text-white">Watch a service <ArrowUpRight size={17} /></a>}</div></div></section>
     <section id="visit" className="scroll-mt-8 py-20 md:py-28"><div className="page-shell"><VisitDetails context={context} /></div></section>
     <section className="border-t border-[var(--line)] bg-white py-20"><div className="page-shell grid gap-12 md:grid-cols-2"><div><p className="eyebrow">Life together</p><h2 className="display mt-5 text-4xl leading-tight md:text-5xl">Faith grows in community.</h2></div><div><p className="text-lg leading-8 text-[var(--ink-soft)]">There is a next step for every season of life. Speak with the local team about membership, small groups, serving and children’s ministry.</p><Link href={localHref(context, "contact")} className="button-primary mt-7">Connect with us <ArrowRight size={17} /></Link></div></div></section>
-    <TrainingInvitation />
   </main><SiteFooter context={context} /></>;
 }
 
@@ -89,6 +76,5 @@ export function InformationPage({ context, page }: { context: PublicContext; pag
   const title = { about: "Rooted in the Word. Led by the Spirit.", contact: location ? `Connect with ${name}.` : "Let’s get you connected.", children: "A foundation for the next generation." }[page];
   return <><PublicNav context={context} /><main id="main-content"><section className="bg-[var(--forest-deep)] py-20 text-white"><div className="page-shell"><p className="text-sm font-bold tracking-widest text-[var(--sun-soft)] uppercase">{page === "children" ? "Children’s ministry" : page}</p><h1 className="display mt-6 max-w-4xl text-5xl leading-tight md:text-7xl">{title}</h1><p className="mt-7 max-w-2xl text-lg leading-8 text-white/75">{page === "about" ? "Raising a supernatural army: people of the Word, yielded to the Spirit and committed to God’s purpose." : page === "contact" ? "Questions about visiting, community, prayer or your next step? Connect directly with a local congregation." : "Help your children grow in faith, discover Scripture and learn to pray. Your local church team can help you plan a family visit."}</p></div></section>
       <section className="py-20"><div className="page-shell">{page === "contact" ? <VisitDetails context={context} /> : page === "about" ? <div className="grid gap-12 md:grid-cols-2"><div><p className="eyebrow">Our church family</p><h2 className="display mt-5 text-4xl leading-tight">A life of faith and purpose.</h2><p className="mt-6 text-lg leading-8 text-[var(--ink-soft)]">{location?.description ?? "KingsWord brings together communities across Africa, Europe and North America. We gather to worship, learn from Scripture and put our faith into practice."}</p><Link href={location ? localHref(context, "#visit") : "/locations"} className="button-primary mt-7">Find your community <ArrowRight size={17} /></Link></div><div className="grid gap-6">{[{ title: "Know the Word", body: "Build your life on Scripture and grow in your relationship with God." }, { title: "Live by the Spirit", body: "Make room for prayer, worship and the work of the Holy Spirit in everyday life." }, { title: "Serve with purpose", body: "Put your faith into action in your church, your community and your world." }].map((item) => <article key={item.title} className="border-b border-[var(--line)] pb-6"><h3 className="display text-2xl font-semibold">{item.title}</h3><p className="mt-3 text-base leading-7 text-[var(--ink-soft)]">{item.body}</p></article>)}</div></div> : <div className="max-w-3xl"><h2 className="display text-4xl">Plan a visit with your children.</h2><p className="mt-6 text-lg leading-8 text-[var(--ink-soft)]">Contact {location ? name : "your local congregation"} to ask about age groups, check-in, service arrangements and any support your child needs.</p><Link href={localHref(context, "contact")} className="button-primary mt-8">Talk to the local team <ArrowRight size={17} /></Link></div>}</div></section>
-      {page === "about" && <TrainingInvitation />}
     </main><SiteFooter context={context} /></>;
 }

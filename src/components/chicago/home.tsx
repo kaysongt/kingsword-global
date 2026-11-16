@@ -42,16 +42,6 @@ const PATHS = [
   },
 ];
 
-const MODULES = [
-  "The New Covenant",
-  "Identity in Christ",
-  "The Word: The Agent of Change",
-  "The Ministry of the Holy Spirit",
-  "Spiritual Authority and Prayer",
-  "Purpose and Calling",
-  "Stewardship and Missional Lifestyle",
-];
-
 export default function HomePage({ context }: { context: PublicContext }) {
   const { address, services } = CHURCH;
 
@@ -232,62 +222,6 @@ export default function HomePage({ context }: { context: PublicContext }) {
                 </article>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ---- Believers Training -------------------------------------------- */}
-      <section
-        id="training"
-        className="relative scroll-mt-24 overflow-hidden bg-[var(--forest-deep)] py-24 text-white md:py-32"
-      >
-        <div
-          className="absolute top-[-14rem] right-[-10rem] h-[38rem] w-[38rem] rounded-full border-[5rem] border-[var(--sun)]/8"
-          aria-hidden="true"
-        />
-        <div className="page-shell relative grid gap-14 lg:grid-cols-[1fr_0.85fr] lg:items-center">
-          <Reveal>
-            <span className="text-xs font-extrabold tracking-[0.17em] text-[var(--sun-soft)] uppercase">
-              Believers Training
-            </span>
-            <h2 className="display mt-6 max-w-2xl text-5xl leading-[0.95] font-medium tracking-[-0.04em] md:text-6xl">
-              Grounded, then sent.
-            </h2>
-            <p className="mt-7 max-w-xl text-lg leading-8 text-white/72">
-              Seven modules, eleven lessons each, taken in order and at your own pace — covenant,
-              identity, the Word, the Holy Spirit, prayer, purpose and stewardship. The same
-              teaching this house is built on.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Link
-                href="/believers-training"
-                className="button-primary !border-[var(--sun)] !bg-[var(--sun)] !text-[#1b1200]"
-              >
-                Explore the programme <ArrowRight size={17} />
-              </Link>
-              <Link
-                href="/signup"
-                className="button-secondary !border-white/25 !bg-white/5 !text-white"
-              >
-                Start free
-              </Link>
-            </div>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <ol className="grid gap-2.5">
-              {MODULES.map((title, index) => (
-                <li
-                  key={title}
-                  className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3 transition-colors hover:border-[var(--sun)]/40 hover:bg-white/[0.07]"
-                >
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/8 text-xs font-extrabold tabular-nums text-white/60">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0 flex-1 text-sm font-bold">{title}</span>
-                </li>
-              ))}
-            </ol>
           </Reveal>
         </div>
       </section>

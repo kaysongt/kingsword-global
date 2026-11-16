@@ -14,10 +14,7 @@ import { PublicNav } from "@/components/public-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { Reveal } from "@/components/reveal";
 import { ChurchVideos } from "@/components/church-videos";
-import {
-  CinematicDirectory,
-  TrainingFeature,
-} from "@/components/cinematic-home";
+import { CinematicDirectory } from "@/components/cinematic-home";
 import { LOCATION_MEDIA } from "@/lib/location-media";
 import {
   DALLAS_CHILDREN,
@@ -432,7 +429,6 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
       {location.slug === "chicago" && <ChicagoNextSteps context={context} />}
       <CommunityGallery context={context} />
       <VisitSection context={context} />
-      <TrainingFeature compact />
     </SiteFrame>
   );
 }
@@ -593,7 +589,6 @@ export function CinematicInformationPage({
               </div>
             </section>
           )}
-          <TrainingFeature compact />
         </>
       ) : (
         <>
@@ -672,13 +667,13 @@ export function CinematicInformationPage({
           <Link
             href={
               page === "contact"
-                ? "/believers-training"
+                ? "/locations"
                 : localHref(context, "contact")
             }
             className="kw-button"
           >
             {page === "contact"
-              ? "Explore Believers Training"
+              ? "Find a church"
               : "Let’s connect"}{" "}
             <ArrowRight size={18} />
           </Link>

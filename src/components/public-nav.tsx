@@ -22,7 +22,6 @@ export async function PublicNav({
     ...(location
       ? [{ label: "Plan a visit", href: localHref(context, "#visit") }]
       : []),
-    { label: "Believers Training", href: "/believers-training" },
     { label: "Connect", href: localHref(context, "contact") },
   ];
   return (
