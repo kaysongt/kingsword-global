@@ -57,7 +57,6 @@ export const NAV_LINKS: ReadonlyArray<{
 }> = [
   { label: "About", href: "/about" },
   { label: "Children", href: "/children" },
-  { label: "Believers Training", href: "/believers-training" },
   { label: "Watch", href: CHURCH.watchUrl, external: true },
   // Visiting details live on the homepage rather than in a page of their own —
   // service times and an address do not fill a page, and burying them one click

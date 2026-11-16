@@ -3,7 +3,7 @@ import { CHURCH } from "@/lib/church";
 export const NETWORK = {
   name: "KingsWord",
   tagline: "Home of the Supernatural",
-  description: "Find your KingsWord community in Chicago, Nigeria, Calgary, Dallas or London. Worship with us and grow through Believers Training.",
+  description: "Find your KingsWord community in Chicago, Nigeria, Calgary, Dallas or London. Find service times and plan your visit.",
   directoryUrl: "https://www.kingsword.org/locations",
   watchUrl: "https://www.kingsword.org/sermons",
 };
