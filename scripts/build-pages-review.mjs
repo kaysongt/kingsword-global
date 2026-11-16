@@ -1,13 +1,11 @@
 import { execFileSync } from "node:child_process";
-import { cp, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const output = join(root, "out");
 const stage = await mkdtemp(join(tmpdir(), "kingsword-pages-"));
-const portalOrigin = "https://seven-module-lms-beta.vercel.app";
-const portalRoutes = new Set(["/login", "/signup", "/apply", "/final-assessment", "/final-assessment/print"]);
 const repositoryName = process.env.GITHUB_REPOSITORY?.split("/").at(-1) || "kingsword-global";
 const basePath = process.env.PAGES_BASE_PATH ?? `/${repositoryName}`;
 if (!/^\/[a-z0-9-]+$/i.test(basePath)) throw new Error("Invalid GitHub Pages base path.");
@@ -33,7 +31,7 @@ try {
 
   // Publish only routes intended for anonymous review.
   const publicEntries = new Set([
-    "about", "believers-training", "children", "contact", "curriculum", "explore",
+    "about", "children", "contact", "explore",
     "locations", "privacy", "globals.css", "kingsword.css", "layout.tsx", "page.tsx",
   ]);
   for (const entry of await readdir(join(stage, "src/app"))) {
@@ -62,36 +60,9 @@ try {
         [[], ["about"], ["contact"], ["children"], ...(slug === "chicago" ? [["members"], ["groups"], ["gatherings"], ["team"]] : [])].map((page) => ({ slug, page })),
       );
     }\n`);
-  await edit("src/lib/public-program.ts", (source) => source
-    .replace('import { db } from "@/lib/db";\n', "")
-    .replace(/  try \{[\s\S]*$/, "  return fallbackProgram;\n}\n"));
-  for (const page of ["believers-training", "curriculum"]) {
-    await edit(`src/app/${page}/page.tsx`, (source) => source
-      .replace('export const dynamic = "force-dynamic";\n', "")
-      .replace(/href="(\/[^"]+)"/g, (attribute, route) =>
-        portalRoutes.has(route) ? `href="${portalOrigin}${route}"` : attribute,
-      ));
-  }
   await edit("src/components/location-globe.tsx", (source) =>
     source.replaceAll('"/geo/', `"${basePath}/geo/`));
 
-  // Give links to the protected app a clear destination in the review copy.
-  for (const route of portalRoutes) {
-    const directory = join(stage, "src/app", route.slice(1));
-    await mkdir(directory, { recursive: true });
-    await writeFile(join(directory, "page.tsx"), `import Link from "next/link";
-
-export default function Page() {
-  return (
-    <main className="page-shell max-w-3xl py-24">
-      <h1 className="display text-5xl">KingsWord website preview</h1>
-      <p className="my-6">Continue to the live Believers Training portal.</p>
-      <Link href="${portalOrigin}${route}" className="button-primary">Continue to the live portal</Link>
-    </main>
-  );
-}
-`);
-  }
   await edit("src/app/layout.tsx", (source) =>
     source.replace("  description: NETWORK.description,", "  description: NETWORK.description,\n  robots: { index: false, follow: false },"));
 
