@@ -21,7 +21,7 @@ function publicUrl(value: string | undefined) {
   } catch { return undefined; }
 }
 const portalUrl = publicUrl(process.env.NEXT_PUBLIC_CHICAGO_MEMBER_PORTAL_URL);
-const connectUrl = publicUrl(process.env.NEXT_PUBLIC_CHICAGO_CONNECT_FORM_URL);
+const connectUrl = publicUrl(process.env.NEXT_PUBLIC_CHICAGO_CONNECT_FORM_URL) ?? "https://kingswordchicago.breezechms.com/form/89a2bc";
 const groupsUrl = publicUrl(process.env.NEXT_PUBLIC_CHICAGO_GROUP_FORM_URL);
 const email = (subject: string) => `mailto:${CHURCH.email}?subject=${encodeURIComponent(subject)}`;
 
@@ -54,10 +54,10 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
     </div></section>
     <section className="kw-section chi-content"><div className="kw-shell">
       {page === "members" && <>
-        <div className="chi-feature"><div><p className="kw-kicker">YOUR FIRST STEP</p><h2>We would love to know you.</h2><p>Visiting Chicago or trying church for the first time? Say hello and let us know how we can help. You’re welcome to visit for as long as you like.</p><a className="kw-button kw-button-light" href={email("My first visit to KingsWord Chicago")}>Email the welcome team<ArrowUpRight size={18}/></a></div>
+        <div className="chi-feature"><div><p className="kw-kicker">YOUR FIRST STEP</p><h2>We would love to know you.</h2><p>Visiting Chicago or trying church for the first time? Leave your name and email if you’d like our welcome team to get in touch. You’re welcome to visit for as long as you like.</p><a className="kw-button kw-button-light" href="https://kingswordchicago.breezechms.com/form/fc2427">Fill out the welcome card<ArrowUpRight size={18}/></a></div>
           <aside className="chi-note"><HeartHandshake size={30} aria-hidden="true"/><h3>Your member portal</h3>{portalUrl ? <><p>Open the Chicago member portal to sign in and view the services available to your account.</p><a href={portalUrl} className="kw-button kw-button-light">Open member portal <ArrowUpRight size={18}/></a></> : <><p>Online member access is being prepared. For help with check-in, speak with the welcome team when you arrive.</p><a className="kw-text-link" href={CHURCH.phoneHref}>Call the church <ArrowUpRight size={16}/></a></>}</aside></div>
         <div className="chi-grid chi-spaced">
-          <article className="chi-card"><h3>Ready to become a member?</h3><p>Sign up for a Connect meeting when you’re ready to join. Your membership begins when you attend. We’ll help you find your small group and fellowship group there.</p><a href={connectUrl ?? email("I'd like to attend the next Chicago Connect meeting")} className="kw-text-link">{connectUrl ? "Sign up for Connect" : "Ask about the next Connect meeting"} <ArrowUpRight size={16}/></a></article>
+          <article className="chi-card"><h3>Ready to become a member?</h3><p>Sign up for a Connect meeting when you’re ready to join. Your membership begins when you attend. We’ll help you find your small group and fellowship group there.</p><a href={connectUrl} className="kw-text-link">Sign up for Connect <ArrowUpRight size={16}/></a></article>
           <article className="chi-card"><h3>Find community</h3><p>Ask about small groups, meeting times and the best place for you to connect.</p><Link href={localHref(context, "groups")} className="kw-text-link">Small groups <ArrowUpRight size={16}/></Link></article>
           <article className="chi-card"><h3>Make a difference</h3><p>Tell the church team where you would like to serve and ask about current opportunities.</p><a href={email("I'd like to serve at KingsWord Chicago")} className="kw-text-link">Ask about serving <ArrowUpRight size={16}/></a></article>
         </div>
