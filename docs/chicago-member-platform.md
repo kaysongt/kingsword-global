@@ -4,7 +4,7 @@ The Chicago public site lives at `/locations/chicago/`. It retains the common Ki
 
 ## Implemented public experience
 
-- `/members/`: welcome contact, optional official Connect form, member portal handoff, training, groups, serving and care contact.
+- `/members/`: Breeze first-visit card, separate opt-in Connect registration, member portal handoff, training, groups, serving and care contact.
 - `/groups/`: group enquiry and leadership contact. No unverified group names, leaders, home addresses or meeting schedules are published.
 - `/gatherings/`: the existing Chicago service schedule, viewing link, children information and special-event enquiry.
 - `/team/`: entry to the existing Breeze login. This is a public signpost, not an authenticated dashboard; it has no member data.
@@ -18,7 +18,7 @@ Public links use these optional GitHub Actions repository variables:
 | CHICAGO_CONNECT_FORM_URL | NEXT_PUBLIC_CHICAGO_CONNECT_FORM_URL | Official Chicago Connect form |
 | CHICAGO_GROUP_FORM_URL | NEXT_PUBLIC_CHICAGO_GROUP_FORM_URL | Official Chicago group enquiry form |
 
-Only HTTPS URLs without credentials are accepted. Leave unset until the destination is reviewed. With no configuration, visitors see working church email/phone links and honest member-access preparation text. Email links open the visitor's email client; they do not automatically submit anything to Breeze. Changing variables requires another Pages deployment. Do not put preview-token URLs, API keys, passwords or private member identifiers in these values.
+Only HTTPS URLs without credentials are accepted. Leave unset until the destination is reviewed. The welcome card links directly to the Chicago Breeze form. Connect defaults to the verified Chicago Connect registration form. With no member portal or group form configured, the site shows church contact links and member-access preparation text. Email links open the visitor's email client; they do not automatically submit anything to Breeze. Changing variables requires another Pages deployment. Do not put preview-token URLs, API keys, passwords or private member identifiers in these values.
 
 ## Private member portal: unfinished integration
 
@@ -31,7 +31,7 @@ Before enabling the member-app link:
 3. Explicitly provision administrators. No first-signup admin grant. Enforce staff, usher, group-leader and member permissions on the server, with deny-by-default record access.
 4. Map verified accounts to Breeze person IDs. Ambiguous matches require authorized staff review. Do not create duplicate member records from unverified registration.
 5. Map check-ins to existing verified service instances in America/Chicago. Enforce a service window, permission checks and duplicate protection server-side. Treat timeouts as unknown/pending and reconcile before retrying. Keep online participation separate from in-person attendance.
-6. Use official forms for guest/Connect and group interest until authenticated submission is complete. Collect only needed details and obtain messaging preferences. Leave automatic messages disabled until church decisions and sender setup are complete.
+6. Keep the guest welcome card separate from Connect registration. Record membership only after verified Connect attendance, then assign the small group and fellowship group. Collect only needed details and obtain messaging preferences. Leave automatic messages disabled until church decisions and sender setup are complete.
 7. Test denied/unauthenticated requests, scoped staff access, duplicate submissions, upstream failures, empty configuration and live end-to-end check-in with an agreed test record before launch.
 
 ## Proposed staff workspace
