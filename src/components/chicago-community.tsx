@@ -7,6 +7,7 @@ import "./chicago-community.css";
 
 export const CHICAGO_PAGES = {
   members: "My Chicago",
+  "check-in": "Sunday check-in",
   groups: "Small groups",
   gatherings: "Gatherings",
   confessions: "Monthly Confessions",
@@ -39,6 +40,7 @@ export function ChicagoNextSteps({ context }: { context: PublicContext }) {
 }
 
 const intro = {
+  "check-in": { kicker: "KINGSWORD CHICAGO", title: "Sunday service check-in", text: "Here with us in person? Check in once during today’s Sunday service using your name and email." },
   members: { kicker: "YOUR CHICAGO CHURCH FAMILY", title: "Welcome home.", text: "Find your next step, stay connected and make yourself at home at KingsWord Chicago." },
   groups: { kicker: "GROW TOGETHER", title: "Faith grows in community.", text: "Get to know people beyond Sunday. Let us help you find a small group that fits your season of life." },
   gatherings: { kicker: "MAKE TIME TO GATHER", title: "See you at church.", text: "Worship, learn and pray with the Chicago family. All service times are local to Chicago." },
@@ -52,6 +54,7 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
     <section className="kw-info-hero chi-hero"><div className="kw-shell">
       <Link href={localHref(context)} className="kw-text-link">KingsWord Chicago</Link>
       <p className="kw-kicker">{content.kicker}</p><h1>{content.title}</h1>{content.text && <p>{content.text}</p>}
+      {page === "check-in" && <a className="kw-button kw-button-light" href="https://kingswordchicago.breezechms.com/form/fc242753">Check in for Sunday service <ArrowUpRight size={18} aria-hidden="true"/></a>}
       <nav className="chi-subnav" aria-label="Chicago community">{Object.entries(CHICAGO_PAGES).filter(([key]) => key !== "team").map(([key, title]) => <Link key={key} href={localHref(context, key)} aria-current={key === page ? "page" : undefined}>{title}</Link>)}</nav>
     </div></section>
     <section className="kw-section chi-content"><div className="kw-shell">
@@ -62,9 +65,10 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
         <p>I choose contentment over comparison, appreciation over complaint, and faith over fear. My words encourage others, and my actions reflect His kindness. I give thanks over my household and church family. I face each day with confidence, knowing that my Father cares for me.</p>
         <p>On a consistent basis, gratitude shapes my perspective, strengthens my faith, and overflows from my life. (Amen)</p>
       </article>}
+      {page === "check-in" && <div className="chi-support"><div><h2>Need a hand?</h2><p>The welcome team can check you in when you arrive. If you already checked in with an usher, you’re all set.</p></div></div>}
       {page === "members" && <>
         <div className="chi-feature"><div><p className="kw-kicker">YOUR FIRST STEP</p><h2>We would love to know you.</h2><p>Visiting Chicago or trying church for the first time? Leave your name and email if you’d like our welcome team to get in touch. You’re welcome to visit for as long as you like.</p><a className="kw-button kw-button-light" href="https://kingswordchicago.breezechms.com/form/fc2427">Fill out the welcome card<ArrowUpRight size={18}/></a></div>
-          <aside className="chi-note"><HeartHandshake size={30} aria-hidden="true"/><h3>Your member portal</h3>{portalUrl ? <><p>Open the Chicago member portal to sign in and view the services available to your account.</p><a href={portalUrl} className="kw-button kw-button-light">Open member portal <ArrowUpRight size={18}/></a></> : <><p>Online member access is being prepared. For help with check-in, speak with the welcome team when you arrive.</p><a className="kw-text-link" href={CHURCH.phoneHref}>Call the church <ArrowUpRight size={16}/></a></>}</aside></div>
+          <aside className="chi-note"><HeartHandshake size={30} aria-hidden="true"/><h3>Your member portal</h3>{portalUrl ? <><p>Open the Chicago member portal to sign in and view the services available to your account.</p><a href={portalUrl} className="kw-button kw-button-light">Open member portal <ArrowUpRight size={18}/></a></> : <><p>Here for Sunday service? Use the attendance form when you arrive.</p><Link className="kw-text-link" href={localHref(context, "check-in")}>Sunday check-in <ArrowUpRight size={16}/></Link></>}</aside></div>
         <div className="chi-grid chi-spaced">
           <article className="chi-card"><h3>Ready to become a member?</h3><p>Sign up for a Connect meeting when you’re ready to join. Your membership begins when you attend. We’ll help you find your small group and fellowship group there.</p><a href={connectUrl} className="kw-text-link">Sign up for Connect <ArrowUpRight size={16}/></a></article>
           <article className="chi-card"><h3>Find community</h3><p>Ask about small groups, meeting times and the best place for you to connect.</p><Link href={localHref(context, "groups")} className="kw-text-link">Small groups <ArrowUpRight size={16}/></Link></article>

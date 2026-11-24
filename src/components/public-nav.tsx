@@ -15,6 +15,7 @@ export async function PublicNav({
     { label: "Our story", href: localHref(context, "about") },
     { label: "Groups", href: localHref(context, "groups") },
     { label: "Gatherings", href: localHref(context, "gatherings") },
+    { label: "Check in", href: localHref(context, "check-in") },
     { label: "My Chicago", href: localHref(context, "members") },
   ] : [
     { label: "Our story", href: localHref(context, "about") },
