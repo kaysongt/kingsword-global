@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, CalendarDays, HeartHandshake, Users, ShieldCheck } from "lucide-react";
 import { SiteFrame } from "@/components/location-site";
@@ -49,12 +50,32 @@ const intro = {
 };
 
 export function ChicagoCommunityPage({ context, page }: { context: PublicContext; page: ChicagoPage }) {
+  if (page === "check-in") {
+    const formUrl = "https://kingswordchicago.breezechms.com/form/fc242753";
+    return <SiteFrame context={context}>
+      <section className="chi-arrival" aria-labelledby="arrival-title">
+        <Image src="/media/chicago-worship.jpg" alt="" fill sizes="100vw" priority />
+        <div className="chi-arrival-layout">
+          <header className="chi-arrival-welcome">
+            <p className="chi-arrival-label">KingsWord Chicago</p>
+            <h1 id="arrival-title">Welcome<br /><em>home.</em></h1>
+            <p>We’re glad you’re here. Check in when you arrive for Sunday service.</p>
+          </header>
+          <div className="chi-arrival-card">
+            <h2>Sunday check-in</h2>
+            <p>Use the name and email you share with the church.</p>
+            <iframe title="Your Sunday attendance" src={formUrl + "?embedded=true&background_color=ffffff&border_width=0&button_color=173b63"} />
+            <small>Having trouble? <a href={formUrl}>Open the form directly</a> or ask an usher.</small>
+          </div>
+        </div>
+      </section>
+    </SiteFrame>;
+  }
   const content = intro[page];
   return <SiteFrame context={context}>
     <section className="kw-info-hero chi-hero"><div className="kw-shell">
       <Link href={localHref(context)} className="kw-text-link">KingsWord Chicago</Link>
       <p className="kw-kicker">{content.kicker}</p><h1>{content.title}</h1>{content.text && <p>{content.text}</p>}
-      {page === "check-in" && <a className="kw-button kw-button-light" href="https://kingswordchicago.breezechms.com/form/fc242753">Check in for Sunday service <ArrowUpRight size={18} aria-hidden="true"/></a>}
       <nav className="chi-subnav" aria-label="Chicago community">{Object.entries(CHICAGO_PAGES).filter(([key]) => key !== "team").map(([key, title]) => <Link key={key} href={localHref(context, key)} aria-current={key === page ? "page" : undefined}>{title}</Link>)}</nav>
     </div></section>
     <section className="kw-section chi-content"><div className="kw-shell">
@@ -65,7 +86,6 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
         <p>I choose contentment over comparison, appreciation over complaint, and faith over fear. My words encourage others, and my actions reflect His kindness. I give thanks over my household and church family. I face each day with confidence, knowing that my Father cares for me.</p>
         <p>On a consistent basis, gratitude shapes my perspective, strengthens my faith, and overflows from my life. (Amen)</p>
       </article>}
-      {page === "check-in" && <div className="chi-support"><div><h2>Need a hand?</h2><p>The welcome team can check you in when you arrive. If you already checked in with an usher, you’re all set.</p></div></div>}
       {page === "members" && <>
         <div className="chi-feature"><div><p className="kw-kicker">YOUR FIRST STEP</p><h2>We would love to know you.</h2><p>Visiting Chicago or trying church for the first time? Leave your name and email if you’d like our welcome team to get in touch. You’re welcome to visit for as long as you like.</p><a className="kw-button kw-button-light" href="https://kingswordchicago.breezechms.com/form/fc2427">Fill out the welcome card<ArrowUpRight size={18}/></a></div>
           <aside className="chi-note"><HeartHandshake size={30} aria-hidden="true"/><h3>Your member portal</h3>{portalUrl ? <><p>Open the Chicago member portal to sign in and view the services available to your account.</p><a href={portalUrl} className="kw-button kw-button-light">Open member portal <ArrowUpRight size={18}/></a></> : <><p>Here for Sunday service? Use the attendance form when you arrive.</p><Link className="kw-text-link" href={localHref(context, "check-in")}>Sunday check-in <ArrowUpRight size={16}/></Link></>}</aside></div>
