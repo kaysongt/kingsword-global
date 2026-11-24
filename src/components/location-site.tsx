@@ -72,9 +72,11 @@ const LEADERS: Record<
 export function SiteFrame({
   context,
   children,
+  home = false,
 }: {
   context: PublicContext;
   children: React.ReactNode;
+  home?: boolean;
 }) {
   const accent = context.location
     ? LOCATION_MEDIA[context.location.slug].accent
@@ -82,7 +84,15 @@ export function SiteFrame({
   return (
     <div className="kw-site" style={{ "--kw-accent": accent } as CSSProperties}>
       <PublicNav context={context} />
-      <main id="main-content">{children}</main>
+      <main id="main-content">
+        {context.location?.slug === "chicago" && (
+          <aside className={home ? "chi-theme chi-theme-home" : "chi-theme"} aria-label="KingsWord Chicago theme of the year">
+            {home && <small>KingsWord Chicago · 2026 theme</small>}
+            <span>The Year of <strong>Overflow</strong></span>
+          </aside>
+        )}
+        {children}
+      </main>
       <SiteFooter context={context} />
     </div>
   );
@@ -281,7 +291,7 @@ export function CinematicLocationHome({ context }: { context: PublicContext }) {
   const location = context.location!;
   const media = LOCATION_MEDIA[location.slug];
   return (
-    <SiteFrame context={context}>
+    <SiteFrame context={context} home>
       <section className={`kw-place-hero place-${location.slug}`}>
         <div className="kw-shell kw-place-content">
           <Link href="/locations" className="kw-place-breadcrumb">

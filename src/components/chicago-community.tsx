@@ -9,6 +9,7 @@ export const CHICAGO_PAGES = {
   members: "My Chicago",
   groups: "Small groups",
   gatherings: "Gatherings",
+  confessions: "Monthly Confessions",
   team: "Staff & leaders",
 } as const;
 export type ChicagoPage = keyof typeof CHICAGO_PAGES;
@@ -41,6 +42,7 @@ const intro = {
   members: { kicker: "YOUR CHICAGO CHURCH FAMILY", title: "Welcome home.", text: "Find your next step, stay connected and make yourself at home at KingsWord Chicago." },
   groups: { kicker: "GROW TOGETHER", title: "Faith grows in community.", text: "Get to know people beyond Sunday. Let us help you find a small group that fits your season of life." },
   gatherings: { kicker: "MAKE TIME TO GATHER", title: "See you at church.", text: "Worship, learn and pray with the Chicago family. All service times are local to Chicago." },
+  confessions: { kicker: "MONTHLY CONFESSIONS", title: "November 2026 Confession", text: "" },
   team: { kicker: "STAFF & MINISTRY LEADERS", title: "Care for the church family.", text: "Use your assigned church account to manage attendance, member care and ministry administration." },
 };
 
@@ -49,10 +51,17 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
   return <SiteFrame context={context}>
     <section className="kw-info-hero chi-hero"><div className="kw-shell">
       <Link href={localHref(context)} className="kw-text-link">KingsWord Chicago</Link>
-      <p className="kw-kicker">{content.kicker}</p><h1>{content.title}</h1><p>{content.text}</p>
+      <p className="kw-kicker">{content.kicker}</p><h1>{content.title}</h1>{content.text && <p>{content.text}</p>}
       <nav className="chi-subnav" aria-label="Chicago community">{Object.entries(CHICAGO_PAGES).filter(([key]) => key !== "team").map(([key, title]) => <Link key={key} href={localHref(context, key)} aria-current={key === page ? "page" : undefined}>{title}</Link>)}</nav>
     </div></section>
     <section className="kw-section chi-content"><div className="kw-shell">
+      {page === "confessions" && <article className="chi-confession" aria-label="November 2026 confession">
+        <p>I give thanks to the Father, who has qualified me to share in the inheritance of the saints in light. He has delivered me from the power of darkness and brought me into the kingdom of His beloved Son. In Christ, I have redemption and the forgiveness of sins. I am accepted, secure, surrounded by His love, and blessed beyond measure.</p>
+        <p>My eyes are open to His goodness, and my heart remembers His faithfulness. I live with a grateful heart. My eyes are open to God’s goodness, and I remember His faithfulness in every season. I rest in Christ’s finished work and receive the abundance of His grace.</p>
+        <p>Thanksgiving fills my mouth, and God’s peace guards my heart and mind. I recognize His gifts in ordinary moments and acknowledge His hand upon my life. God’s presence sustains me through every storm. His joy renews my strength, and His love anchors my soul.</p>
+        <p>I choose contentment over comparison, appreciation over complaint, and faith over fear. My words encourage others, and my actions reflect His kindness. I give thanks over my household and church family. I face each day with confidence, knowing that my Father cares for me.</p>
+        <p>On a consistent basis, gratitude shapes my perspective, strengthens my faith, and overflows from my life. (Amen)</p>
+      </article>}
       {page === "members" && <>
         <div className="chi-feature"><div><p className="kw-kicker">YOUR FIRST STEP</p><h2>We would love to know you.</h2><p>Visiting Chicago or trying church for the first time? Leave your name and email if you’d like our welcome team to get in touch. You’re welcome to visit for as long as you like.</p><a className="kw-button kw-button-light" href="https://kingswordchicago.breezechms.com/form/fc2427">Fill out the welcome card<ArrowUpRight size={18}/></a></div>
           <aside className="chi-note"><HeartHandshake size={30} aria-hidden="true"/><h3>Your member portal</h3>{portalUrl ? <><p>Open the Chicago member portal to sign in and view the services available to your account.</p><a href={portalUrl} className="kw-button kw-button-light">Open member portal <ArrowUpRight size={18}/></a></> : <><p>Online member access is being prepared. For help with check-in, speak with the welcome team when you arrive.</p><a className="kw-text-link" href={CHURCH.phoneHref}>Call the church <ArrowUpRight size={16}/></a></>}</aside></div>

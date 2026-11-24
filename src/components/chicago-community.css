@@ -27,3 +27,9 @@ a.chi-card:hover { border-color: var(--kw-accent); transform: translateY(-3px); 
 @media(max-width:900px) { .chi-feature { gap:32px; } .chi-grid { grid-template-columns:1fr; } .chi-support { align-items:flex-start; flex-direction:column; } }
 @media(max-width:650px) { .chi-feature,.chi-steps { grid-template-columns:1fr; } .chi-card,.chi-note { padding:25px; } .chi-spaced { margin-top:40px; } .chi-subnav a { padding:10px 15px; } }
 @media(prefers-reduced-motion:reduce) { a.chi-card { transition:none; } a.chi-card:hover { transform:none; } }
+
+.chi-theme { background: #efd291; color: #132e51; padding: .45rem 1rem; text-align: center; text-transform: uppercase; letter-spacing: .12em; font-size: .8rem; }
+.chi-theme-home { display: grid; gap: .5rem; padding: clamp(1rem, 3vw, 2.5rem) 1rem; background: #102e54; color: white; }
+.chi-theme-home span { font-size: clamp(1.4rem, 4vw, 3rem); line-height: 1.1; }
+.chi-theme-home strong { color: #f3cf80; }
+.chi-confession { max-width: 65ch; margin-inline: auto; font-size: 1.16rem; line-height: 1.8; }

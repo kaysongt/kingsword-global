@@ -57,7 +57,7 @@ try {
     source.replace("import { locationBySlug,", "import { LOCATIONS, locationBySlug,") +
     `\nexport function generateStaticParams() {
       return LOCATIONS.flatMap(({ slug }) =>
-        [[], ["about"], ["contact"], ["children"], ...(slug === "chicago" ? [["members"], ["groups"], ["gatherings"], ["team"]] : [])].map((page) => ({ slug, page })),
+        [[], ["about"], ["contact"], ["children"], ...(slug === "chicago" ? [["members"], ["groups"], ["gatherings"], ["confessions"], ["team"]] : [])].map((page) => ({ slug, page })),
       );
     }\n`);
   await edit("src/components/location-globe.tsx", (source) =>
