@@ -32,6 +32,7 @@ CUSTOM = {"country": "Country", "title": "Title", "gender": "Gender", "birth": "
 CHICAGO = ZoneInfo("America/Chicago")
 ORIGINS = {"https://kaysongt.github.io", "https://chicago.kingsword.org"}
 active = asyncio.Semaphore(4)
+waiting = 0
 rates = Counter()
 rate_period = 0
 
@@ -130,7 +131,7 @@ def health():
 
 @app.post("/{kind}")
 async def submit(kind: str, data: Submission):
-    global rates, rate_period
+    global rates, rate_period, waiting
     if kind not in FORMS:
         raise HTTPException(404)
     if any(k not in CONTACT and k not in CUSTOM for k in data.details) or any(len(v)>180 for v in data.details.values()):
@@ -166,29 +167,40 @@ async def submit(kind: str, data: Submission):
         if row[0] == "done":
             return confirmed()
         raise HTTPException(409, "pending")
-    if active.locked():
+    if waiting >= 32:
         raise HTTPException(429, "Please wait a moment")
     db.execute("INSERT INTO deliveries VALUES (?, 'opening', ?)", (delivery, stamp))
+    waiting += 1
+    try:
+        await asyncio.wait_for(active.acquire(), timeout=20)
+    except TimeoutError:
+        db.execute("DELETE FROM deliveries WHERE id=?", (delivery,))
+        raise HTTPException(429, "Please wait a moment") from None
+    finally:
+        waiting -= 1
     context = None
     clicked = False
     try:
-        async with active:
-            browser = await get_browser()
-            context = await browser.new_context()
-            page = await context.new_page()
-            page.set_default_timeout(12000)
-            submit_button = await prepare_form(page, kind, data)
-            db.execute("UPDATE deliveries SET phase='sending' WHERE id=?", (delivery,))
-            clicked = True
-            await submit_button.click()
-            # Breeze navigates here only after accepting the form fields.
-            await page.wait_for_url(re.compile(re.escape(HOST) + r"/forms/complete/\d+(?:[/?#].*)?$"), wait_until="commit", timeout=25000)
-            db.execute("UPDATE deliveries SET phase='done' WHERE id=?", (delivery,))
-            return confirmed()
+        browser = await get_browser()
+        context = await browser.new_context()
+        page = await context.new_page()
+        page.set_default_timeout(12000)
+        submit_button = await prepare_form(page, kind, data)
+        db.execute("UPDATE deliveries SET phase='sending' WHERE id=?", (delivery,))
+        clicked = True
+        await submit_button.click()
+        # Breeze navigates here only after accepting the form fields.
+        await page.wait_for_url(re.compile(re.escape(HOST) + r"/forms/complete/\d+(?:[/?#].*)?$"),
+                                wait_until="commit", timeout=25000)
+        db.execute("UPDATE deliveries SET phase='done' WHERE id=?", (delivery,))
+        return confirmed()
     except Exception:
         if not clicked:
             db.execute("DELETE FROM deliveries WHERE id=?", (delivery,))
         raise HTTPException(409 if clicked else 503, "pending" if clicked else "Temporarily unavailable") from None
     finally:
-        if context:
-            await context.close()
+        try:
+            if context:
+                await context.close()
+        finally:
+            active.release()

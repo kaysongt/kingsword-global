@@ -91,7 +91,7 @@ export function ChicagoCheckIn({ endpoint }: { endpoint: string }) {
       }
       const response = await fetch(endpoint + (isProfile ? "/welcome" : "/attendance"), {
         method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit",
-        referrerPolicy: "no-referrer", cache: "no-store", signal: AbortSignal.timeout(80000),
+        referrerPolicy: "no-referrer", cache: "no-store", signal: AbortSignal.timeout(110000),
         body: JSON.stringify({ ...clean, device: device.current, ...(isProfile ? { receipt: receipt.current, details: answers } : {}) }),
       });
       if (!response.ok) {
