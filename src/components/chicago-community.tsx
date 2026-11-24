@@ -61,7 +61,8 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
             <h1 id="arrival-title">Welcome<br /><em>home.</em></h1>
             <p>We’re glad you’re here. Check in when you arrive for Sunday service.</p>
           </header>
-          <ChicagoCheckIn endpoint={process.env.NEXT_PUBLIC_CHICAGO_CHECKIN_ENDPOINT || ""} />
+          <ChicagoCheckIn endpoint={process.env.NEXT_PUBLIC_CHICAGO_CHECKIN_ENDPOINT === "off" ? "" :
+            publicUrl(process.env.NEXT_PUBLIC_CHICAGO_CHECKIN_ENDPOINT)?.replace(/\/$/, "") || "https://kingsword-chicago-checkin-production.up.railway.app"} />
         </div>
       </section>
     </SiteFrame>;
