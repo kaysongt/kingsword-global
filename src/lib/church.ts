@@ -12,6 +12,7 @@
  */
 export const CHURCH = {
   name: "KingsWord Chicago",
+  staffLogin: "https://kingsword-chicago-checkin-production.up.railway.app/office/login",
   legalName: "KingsWord International Church, Chicago",
   tagline: "The Apostolic Place",
   description:

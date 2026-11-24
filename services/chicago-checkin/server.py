@@ -14,6 +14,8 @@ from pathlib import Path
 from uuid import UUID
 from zoneinfo import ZoneInfo
 
+from office import initialize_office, router as office_router
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from playwright.async_api import async_playwright
@@ -50,6 +52,7 @@ async def lifespan(app):
     db.execute("DELETE FROM deliveries WHERE stamp < ?", (int(time.time()) - 8*86400,))
     # A restart after clicking Submit must never silently issue a second submission.
     db.execute("DELETE FROM deliveries WHERE phase='opening'")
+    initialize_office(db)
     app.state.db = db
     driver = await async_playwright().start()
     app.state.driver = driver
@@ -62,6 +65,7 @@ async def lifespan(app):
     db.close()
 
 app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
+app.include_router(office_router)
 app.add_middleware(CORSMiddleware, allow_origins=sorted(ORIGINS), allow_methods=["POST"],
                    allow_headers=["Content-Type"], max_age=3600)
 
@@ -110,7 +114,7 @@ async def prepare_form(page, kind, data):
 
 @app.middleware("http")
 async def protect(request: Request, call_next):
-    if request.method == "POST":
+    if request.method == "POST" and not request.url.path.startswith("/office/"):
         if request.headers.get("origin") not in ORIGINS:
             return JSONResponse({"detail": "Origin unavailable"}, status_code=403)
         if request.headers.get("content-type","").split(";")[0] != "application/json":
@@ -123,6 +127,13 @@ async def protect(request: Request, call_next):
             return JSONResponse({}, status_code=413)
     response = await call_next(request)
     response.headers["Cache-Control"] = "no-store"
+    if request.url.path.startswith("/office"):
+        response.headers.update({
+            "Content-Security-Policy": "default-src 'none'; style-src 'self'; img-src 'self' https://kaysongt.github.io; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
+            "Referrer-Policy": "no-referrer",
+            "X-Content-Type-Options": "nosniff",
+            "X-Robots-Tag": "noindex, nofollow",
+        })
     return response
 
 @app.get("/health")
@@ -192,7 +203,15 @@ async def submit(kind: str, data: Submission):
         # Breeze navigates here only after accepting the form fields.
         await page.wait_for_url(re.compile(re.escape(HOST) + r"/forms/complete/\d+(?:[/?#].*)?$"),
                                 wait_until="commit", timeout=25000)
-        db.execute("UPDATE deliveries SET phase='done' WHERE id=?", (delivery,))
+        db.execute("BEGIN")
+        try:
+            db.execute("UPDATE deliveries SET phase='done' WHERE id=?", (delivery,))
+            db.execute('''INSERT INTO office_form_totals(day, kind, total) VALUES(?, ?, 1)
+                ON CONFLICT(day, kind) DO UPDATE SET total=total+1''', (day, kind))
+            db.execute("COMMIT")
+        except Exception:
+            db.execute("ROLLBACK")
+            raise
         return confirmed()
     except Exception:
         if not clicked:

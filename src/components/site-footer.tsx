@@ -1,4 +1,5 @@
 import "./site-footer.css";
+import { CHURCH } from "@/lib/church";
 import Image from "next/image";
 import Link from "next/link";
 import { getPublicContext } from "@/lib/public-context";
@@ -55,7 +56,7 @@ export async function SiteFooter({
               <Link href={localHref(context, "members")}>My Chicago</Link>
               <Link href={localHref(context, "groups")}>Small groups</Link>
               <Link href={localHref(context, "gatherings")}>Gatherings</Link>
-              <Link href={localHref(context, "team")}>Staff & leaders</Link>
+              <a href={CHURCH.staffLogin}>Staff &amp; leaders</a>
             </>}
             {location?.giveUrl && (
               <a

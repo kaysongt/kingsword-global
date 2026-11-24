@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#142b49">
+<title>{% block title %}Staff sign-in{% endblock %} | KingsWord Chicago</title>
+<link rel="stylesheet" href="/office/style.css">
+</head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<div class="shell mast"><a class="identity" href="{{ site }}/locations/chicago/"><img src="{{ site }}/brand/logo-white.png" alt="KingsWord"><span>Chicago</span></a>
+{% if user %}<form action="/office/logout" method="post"><input type="hidden" name="csrf" value="{{ user.csrf }}"><button class="quiet" type="submit">Sign out</button>
+</form>{% else %}<a class="quiet" href="{{ site }}/locations/chicago/">Church website <span aria-hidden="true">↗</span></a>{% endif %}</div>
+</header>
+{% if user %}<nav class="nav" aria-label="Chicago workspace">
+<div class="shell"><a href="/office" {% if self.title() == 'Staff workspace' %}aria-current="page"{% endif %}>Overview</a>{% if user.role == "office" %}<a href="/office/vendors" {% if self.title() == 'Vendors &amp; facilities' %}aria-current="page"{% endif %}>Vendors &amp; facilities</a><a href="/office/access" {% if self.title() == 'Staff access' %}aria-current="page"{% endif %}>Staff access</a>{% endif %}</div>
+</nav>{% endif %}
+<main id="main" class="shell">{% block main %}{% endblock %}</main>
+<footer class="shell foot"><span>KingsWord Chicago</span><span>{% if user %}{{ roles[user.role] }} · {{ user.email }}{% else %}Staff &amp; ministry leaders{% endif %}</span>
+</footer>
+</body>
+</html>

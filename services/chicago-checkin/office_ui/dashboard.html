@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Staff workspace{% endblock %}
+{% block main %}
+<header class="pagehead">
+<p class="eyebrow">KingsWord Chicago</p>
+<h1>Staff workspace</h1>
+<p>Review Sunday’s check-ins and decide who needs a call this week.</p>
+</header>
+<section class="band">
+<div>
+<p class="eyebrow">Website submissions</p>
+<h2>Check-in activity</h2>
+<p><time>{{ since }}</time> through <time>{{ today }}</time> · Chicago time</p>
+</div>
+<div class="metrics">
+<div><b>{{ totals.get('attendance',0) }}</b><span>Sunday check-ins</span>
+</div>
+<div><b>{{ totals.get('welcome',0) }}</b><span>Welcome cards</span>
+</div>
+</div>
+</section>
+<p class="caption">Counts include forms submitted through the Chicago check-in page that Breeze confirmed. For total Sunday attendance, open the dated service in Breeze.</p>
+<section>
+<h2>Member care</h2>
+<div class="grid">
+<article>
+<h3>Sunday attendance</h3>
+<p>Match check-ins to people in Breeze and mark them present at the correct Sunday service.</p><a href="{{ breeze }}/forms/entries/1058069">Check-in entries ↗</a><a href="{{ breeze }}/r/events">Events in Breeze ↗</a>
+</article>
+<article>
+<h3>First visits &amp; Connect</h3>
+<p>Review welcome cards, assign a first contact and confirm who attended Connect before updating membership.</p><a href="{{ breeze }}/forms/entries/1057466">Welcome cards ↗</a><a href="{{ breeze }}/forms/entries/729562">Connect registrations ↗</a>
+</article>
+<article>
+<h3>Small groups &amp; follow-up</h3>
+<p>Review leader reports, assign referrals and record the next conversation. Check attendance before contacting someone about a missed Sunday.</p><a href="{{ breeze }}/forms/entries/41267">Small-group reports ↗</a><a href="{{ breeze }}/followups">Follow-ups in Breeze ↗</a>
+</article>
+</div>
+<p class="caption">Breeze opens with the permissions assigned to your church account.</p>
+</section>
+{% if user.role == 'office' %}<section class="feature">
+<div>
+<p class="eyebrow">Church office</p>
+<h2>Vendors &amp; facilities</h2>
+<p>Find Aunty Tobi’s vendor directory and coordinate service visits, repairs and seasonal maintenance.</p>
+</div><a class="primary" href="/office/vendors">Open vendor setup →</a>
+</section>{% endif %}
+{% endblock %}

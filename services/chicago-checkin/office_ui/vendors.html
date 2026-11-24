@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Vendors &amp; facilities{% endblock %}
+{% block main %}
+<header class="pagehead">
+<p class="eyebrow">Chicago church office</p>
+<h1>Vendors &amp; facilities</h1>
+<p>Use Aunty Tobi’s tracker to find the right contact, assign a church owner and confirm the next service date.</p>
+</header>
+<div class="grid two">
+<article>
+<h2>Vendor directory</h2>
+<p>Find trades, contacts and coverage. Confirm who handles calls for each vendor and record a backup.</p><a class="primary" href="{{ tracker }}#gid=0">Open live directory ↗</a>
+</article>
+<article>
+<h2>Service schedule &amp; requests</h2>
+<p>Log a repair or planned visit with an owner and due date. After completion, enter the visit date and set the next one.</p><a class="primary" href="{{ tracker }}#gid=901">Open live schedule ↗</a>
+</article>
+</div>
+<p class="caption">The live tracker opens in Google Sheets with the permissions assigned to your Google account.</p>
+{% if not reference %}<section>
+<h2>Planning the next visit</h2>
+<div class="grid">
+<article>
+<h3>Recurring work</h3>
+<p>Confirm the cleaning, grounds and HVAC schedules with the vendor and the church staff member who handles that service.</p>
+</article>
+<article>
+<h3>Seasonal work</h3>
+<p>Agree on a service window and backup contact before winter or the start of the grounds season.</p>
+</article>
+<article>
+<h3>Repairs</h3>
+<p>Record the site, what needs attention, who will call and when the office should check back.</p>
+</article>
+</div>
+</section>{% endif %}
+{% if reference %}<p class="caption">Office reference from {{ reference.as_of }}. The live tracker above contains the latest changes and contact details.</p>
+<section>
+<h2>Service setup</h2>
+<div class="tablebox">
+<table>
+<thead>
+<tr><th>Service</th><th>Church owner</th><th>Next due</th><th>Status</th>
+</tr>
+</thead>
+<tbody>
+{% for name, owner, due, status in reference.services %}<tr><th scope="row">{{ name }}</th><td>{{ owner or 'Unassigned' }}</td><td>{{ due or 'To confirm' }}</td><td>{{ status or 'To confirm' }}</td>
+</tr>{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+<section>
+<h2>Vendor list</h2>
+<div class="tablebox">
+<table>
+<thead>
+<tr><th>Vendor</th><th>Trade or service</th>
+</tr>
+</thead>
+<tbody>
+{% for name, trade in reference.vendors %}<tr><th scope="row">{{ name }}</th><td>{{ trade or 'To confirm' }}</td>
+</tr>{% endfor %}
+</tbody>
+</table>
+</div>
+</section>{% endif %}
+{% endblock %}

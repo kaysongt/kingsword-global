@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Staff access{% endblock %}
+{% block main %}
+<header class="pagehead">
+<p class="eyebrow">Chicago church office</p>
+<h1>Staff access</h1>
+<p>Invite individual Chicago staff members and ministry leaders.</p>
+</header>
+{% if error %}<p class="alert" role="alert">{{ error }}</p>{% endif %}
+{% if code %}<div class="notice" role="status">
+<h2>Setup code for {{ invited }}</h2>
+<p>Give this code privately to that person together with the <a href="/office/activate">activation page</a>. It expires in seven days and can be used once.</p><code>{{ code }}</code>
+</div>{% endif %}
+<section class="grid two">
+<article>
+<h2>Issue a setup code</h2>
+<form class="stack" action="/office/access" method="post"><input type="hidden" name="action" value="invite"><input type="hidden" name="csrf" value="{{ user.csrf }}">
+<label>Staff email<input type="email" name="email" required maxlength="254">
+</label>
+<label>Chicago role<select name="role">
+<option value="leader">Ministry leader</option>
+<option value="office">Office admin</option>
+</select>
+</label><button class="primary" type="submit">Create private setup code</button>
+</form>
+</article>
+<article>
+<h2>What each role can open</h2>
+<h3>Ministry leader</h3>
+<p>Check-in activity, attendance, welcome cards, Connect and small-group resources.</p>
+<h3>Office admin</h3>
+<p>All ministry resources, the vendor directory, maintenance schedule and staff access management. Breeze and Google Sheets manage their own permissions.</p>
+</article>
+</section>
+<section>
+<h2>Chicago staff</h2>
+<div class="tablebox">
+<table>
+<thead>
+<tr><th>Email</th><th>Role</th><th>Status</th><th>Access</th>
+</tr>
+</thead>
+<tbody>
+{% for email,role,active,disabled,expiry in members %}<tr><th scope="row">{{ email }}</th><td>{{ roles[role] }}</td><td>{{ 'Revoked' if disabled else 'Active' if active else 'Code expired' if expiry and expiry <= now else 'Invited' }}</td><td>{% if email != user.email and not disabled %}<form action="/office/access" method="post"><input type="hidden" name="action" value="revoke"><input type="hidden" name="csrf" value="{{ user.csrf }}"><input type="hidden" name="email" value="{{ email }}"><button class="subtle" type="submit">Revoke access</button>
+</form>{% elif email == user.email %}Your account{% else %}—{% endif %}</td>
+</tr>{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+{% endblock %}

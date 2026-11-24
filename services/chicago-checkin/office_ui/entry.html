@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Activate your account' if activate else 'Staff sign-in' }}{% endblock %}
+{% block main %}
+<div class="entry">
+  <section class="portrait">
+<div>
+<p class="eyebrow">Chicago church office</p>
+<h1>Staff &amp;<br><i>leaders.</i>
+</h1>
+</div>
+</section>
+  <section class="entry-card">
+<p class="eyebrow">KingsWord Chicago</p>
+<h2>{{ 'Activate your account' if activate else 'Staff sign-in' }}</h2>
+    <p>{{ 'Enter the email and one-time code from your Chicago office invitation. Choose a password you’ll use to sign in.' if activate else 'Sign in with your Chicago staff account.' }}</p>
+    {% if error %}<p role="alert" class="alert">{{ error }}</p>{% endif %}
+    <form class="stack" action="{{ '/office/activate' if activate else '/office/login' }}" method="post">
+      <label>Email address<input type="email" name="email" autocomplete="username" maxlength="254" required>
+</label>
+      {% if activate %}<label>One-time setup code<input type="text" name="code" autocomplete="one-time-code" maxlength="100" spellcheck="false" required>
+</label>{% endif %}
+      <label>{{ 'Choose a password' if activate else 'Password' }}<input type="password" name="password" autocomplete="{{ 'new-password' if activate else 'current-password' }}" maxlength="256" {% if activate %}minlength="15" aria-describedby="password-help"{% endif %} required>
+</label>
+      {% if activate %}<small id="password-help">Use at least 15 characters. A short phrase works well.</small>{% endif %}
+      <button class="primary" type="submit">{{ 'Activate and sign in' if activate else 'Sign in' }} <span aria-hidden="true">→</span></button>
+    </form>
+    <div class="help"><a href="{{ '/office/login' if activate else '/office/activate' }}">{{ 'Back to sign-in' if activate else 'First time here? Use your setup code' }}</a><br><a href="mailto:admin@kingsword.org?subject=Chicago%20staff%20portal%20access">Ask the Chicago office for help</a>
+</div>
+  </section>
+</div>
+{% endblock %}
