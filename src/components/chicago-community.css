@@ -55,3 +55,35 @@ a.chi-card:hover { border-color: var(--kw-accent); transform: translateY(-3px); 
   .chi-arrival-welcome h1 em::before { content: " "; }
   .chi-arrival-welcome > p:last-child { font-size: 1rem; }
 }
+
+.chi-check { background: #fffcf6; border: 1px solid #eee4d1; text-align: left; }
+.chi-check-meta { display: flex; align-items: center; gap: .45rem; margin-bottom: .9rem; font-size: .78rem; font-weight: 700; color: #5c5448; }
+.chi-check-meta svg { color: #83652d; }
+.chi-check h2 { line-height: 1.1; font-size: clamp(1.8rem,3vw,2.45rem); }
+.chi-check h2:focus { outline: none; }
+.chi-check form,.chi-check-group > div { display: grid; gap: 1rem; }
+.chi-check form { margin-top: 1.25rem; }
+.chi-check-fields { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+.chi-check label { display: grid; min-width: 0; gap: .38rem; color: #243850; font-size: .875rem; font-weight: 650; }
+.chi-check-input { display: flex; align-items: center; gap: .5rem; padding: 0 .8rem; }
+.chi-check-input,.chi-check-group input,.chi-check-group select { background: #fff; border: 1px solid #c4c8cc; border-radius: 9px; }
+.chi-check-input:focus-within,.chi-check-group :is(input,select):focus { outline: 3px solid #b79958; outline-offset: 2px; }
+.chi-check-input svg { flex-shrink: 0; color: #657589; }
+.chi-check input,.chi-check select { width: 100%; min-width: 0; min-height: 48px; color: #152f50; font: inherit; font-size: 1rem; font-weight: 450; }
+.chi-check-input input { background: transparent; border: 0; outline: 0; }
+.chi-check-group input,.chi-check select { padding: .55rem .75rem; }
+.chi-check-primary,.chi-check-secondary { display: flex; width: 100%; min-height: 48px; justify-content: center; align-items: center; gap: .65rem; border-radius: 9px; font: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; }
+.chi-check-primary { background: #173b63; color: #fff; border: 1px solid #173b63; }
+.chi-check-primary:hover { background: #102f50; }
+.chi-check-secondary { color: #173b63; background: transparent; border: 1px solid #c4c8cc; }
+.chi-check > .chi-check-secondary { margin-top: .6rem; }
+.chi-check button:focus-visible,.chi-check summary:focus-visible { outline: 3px solid #a68138; outline-offset: 3px; }
+.chi-check button:disabled { opacity: .72; cursor: wait; }
+.chi-check-group { border-bottom: 1px solid #dcd7cd; }
+.chi-check-group summary { display: flex; justify-content: space-between; align-items: center; padding: .6rem 0 .9rem; min-height: 44px; cursor: pointer; font-weight: 700; }
+.chi-check-group summary::-webkit-details-marker { display: none; }
+.chi-check-group[open] summary svg { transform: rotate(180deg); }
+.chi-check-group > div { padding-bottom: 1rem; }
+.chi-check form > p { margin: 0; }
+.chi-check .chi-check-error { padding: .7rem; color: #762527; background: #fdefea; border-radius: 6px; }
+@media(max-width:370px) { .chi-check-fields { grid-template-columns: 1fr; } }

@@ -27,6 +27,7 @@ jobs:
         env:
           NEXT_PUBLIC_CHICAGO_MEMBER_PORTAL_URL: ${{ vars.CHICAGO_MEMBER_PORTAL_URL }}
           NEXT_PUBLIC_CHICAGO_CONNECT_FORM_URL: ${{ vars.CHICAGO_CONNECT_FORM_URL }}
+          NEXT_PUBLIC_CHICAGO_CHECKIN_ENDPOINT: ${{ vars.CHICAGO_CHECKIN_ENDPOINT }}
           NEXT_PUBLIC_CHICAGO_GROUP_FORM_URL: ${{ vars.CHICAGO_GROUP_FORM_URL }}
       - uses: actions/upload-pages-artifact@v4
         with:

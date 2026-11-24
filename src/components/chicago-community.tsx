@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, CalendarDays, HeartHandshake, Users, ShieldCheck } from "lucide-react";
+import { ChicagoCheckIn } from "@/components/chicago-check-in";
 import { SiteFrame } from "@/components/location-site";
 import { CHURCH } from "@/lib/church";
 import { localHref, type PublicContext } from "@/lib/locations";
@@ -51,7 +52,6 @@ const intro = {
 
 export function ChicagoCommunityPage({ context, page }: { context: PublicContext; page: ChicagoPage }) {
   if (page === "check-in") {
-    const formUrl = "https://kingswordchicago.breezechms.com/form/fc242753";
     return <SiteFrame context={context}>
       <section className="chi-arrival" aria-labelledby="arrival-title">
         <Image src="/media/chicago-worship.jpg" alt="" fill sizes="100vw" priority />
@@ -61,12 +61,7 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
             <h1 id="arrival-title">Welcome<br /><em>home.</em></h1>
             <p>We’re glad you’re here. Check in when you arrive for Sunday service.</p>
           </header>
-          <div className="chi-arrival-card">
-            <h2>Sunday check-in</h2>
-            <p>Use the name and email you share with the church.</p>
-            <iframe title="Your Sunday attendance" src={formUrl + "?embedded=true&background_color=ffffff&border_width=0&button_color=173b63"} />
-            <small>Having trouble? <a href={formUrl}>Open the form directly</a> or ask an usher.</small>
-          </div>
+          <ChicagoCheckIn endpoint={process.env.NEXT_PUBLIC_CHICAGO_CHECKIN_ENDPOINT || ""} />
         </div>
       </section>
     </SiteFrame>;
