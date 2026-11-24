@@ -85,6 +85,28 @@ async def get_browser():
                 args=["--disable-dev-shm-usage"])
     return app.state.browser
 
+async def prepare_form(page, kind, data):
+    await page.goto(f"{HOST}/form/{FORMS[kind]}?embedded=true", wait_until="domcontentloaded", timeout=40000)
+    await page.wait_for_function("typeof window.jQuery === 'function' && typeof window.save_person_meta === 'function'")
+    form = page.locator("form#custom_form")
+    for field, value in (("first_name",data.first),("last_name",data.last),("email_address",data.email)):
+        await form.locator(f"input.field_type-{field}:visible").fill(value)
+    for key, value in data.details.items():
+        if not value.strip():
+            continue
+        if key in CUSTOM:
+            group = form.locator(".avoid_page_break").filter(has=page.get_by_text(CUSTOM[key],exact=True))
+            await group.locator("input.field_type-text").fill(value)
+        elif key == "state":
+            await form.locator("select.field_type-address_state").select_option(value=value)
+        else:
+            if key == "unit":
+                await form.get_by_title("Show Second Street Address Line").click()
+            await form.locator(f"input.field_type-{CONTACT[key]}").fill(value)
+    submit_button = form.get_by_role("button", name="Submit", exact=True)
+    await submit_button.click(trial=True)
+    return submit_button
+
 @app.middleware("http")
 async def protect(request: Request, call_next):
     if request.method == "POST":
@@ -155,24 +177,7 @@ async def submit(kind: str, data: Submission):
             context = await browser.new_context()
             page = await context.new_page()
             page.set_default_timeout(12000)
-            await page.goto(f"{HOST}/form/{FORMS[kind]}?embedded=true", wait_until="domcontentloaded", timeout=25000)
-            form = page.locator("form#custom_form")
-            for field, value in (("first_name",data.first),("last_name",data.last),("email_address",data.email)):
-                await form.locator(f"input.field_type-{field}:visible").fill(value)
-            for key, value in data.details.items():
-                if not value.strip():
-                    continue
-                if key in CUSTOM:
-                    group = form.locator(".avoid_page_break").filter(has=page.get_by_text(CUSTOM[key],exact=True))
-                    await group.locator("input.field_type-text").fill(value)
-                elif key == "state":
-                    await form.locator("select.field_type-address_state").select_option(value=value)
-                else:
-                    if key == "unit":
-                        await form.get_by_title("Show Second Street Address Line").click()
-                    await form.locator(f"input.field_type-{CONTACT[key]}").fill(value)
-            submit_button = form.get_by_role("button", name="Submit", exact=True)
-            await submit_button.click(trial=True)
+            submit_button = await prepare_form(page, kind, data)
             db.execute("UPDATE deliveries SET phase='sending' WHERE id=?", (delivery,))
             clicked = True
             await submit_button.click()
