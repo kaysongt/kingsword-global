@@ -59,7 +59,7 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
           <header className="chi-arrival-welcome">
             <p className="chi-arrival-label">KingsWord Chicago</p>
             <h1 id="arrival-title">Welcome<br /><em>home.</em></h1>
-            <p>We’re glad you’re here. Check in when you arrive for Sunday service.</p>
+            <p>We’re glad you’re here. Checking in helps our Chicago team stay in touch and notice when someone might need a call.</p>
           </header>
           <ChicagoCheckIn endpoint={process.env.NEXT_PUBLIC_CHICAGO_CHECKIN_ENDPOINT === "off" ? "" :
             publicUrl(process.env.NEXT_PUBLIC_CHICAGO_CHECKIN_ENDPOINT)?.replace(/\/$/, "") || "https://kingsword-chicago-checkin-production.up.railway.app"} />
@@ -103,8 +103,8 @@ export function ChicagoCommunityPage({ context, page }: { context: PublicContext
         <Link href={localHref(context, "children")} className="kw-text-link">Bringing children? Explore children’s ministry <ArrowUpRight size={18}/></Link>
       </>}
       {page === "team" && <>
-        <div className="chi-feature"><div><p className="kw-kicker">CHURCH OPERATIONS</p><h2>Open your staff workspace.</h2><p>Sign in with your Chicago staff email to review Sunday check-ins, follow up with visitors and find the tools for your role.</p><a className="kw-button kw-button-light" href={CHURCH.staffLogin}>Chicago staff sign-in <ArrowUpRight size={18}/></a></div><aside className="chi-note"><ShieldCheck size={30} aria-hidden="true"/><h3>Staff access only</h3><p>This page does not display member information. If you need staff access or a change to your responsibilities, contact the church administrator.</p><a href={email("KingsWord Chicago staff access request")} className="kw-text-link">Request staff access <ArrowUpRight size={16}/></a></aside></div>
-        <div className="chi-support"><div><h3>Attendance & member care</h3><p>After Sunday service, the office confirms that attendance was taken for the dated service in Breeze. The small group organizing committee reviews referrals and assigns a leader to follow up.</p></div><Link href={localHref(context, "members")} className="kw-button">View member entry page <ArrowUpRight size={18}/></Link></div>
+        <div className="chi-feature"><div><p className="kw-kicker">CHURCH OPERATIONS</p><h2>Open your staff workspace.</h2><p>Sign in to open your group’s Sunday roster, review Connect and training, and see which check-ins need a second look.</p><a className="kw-button kw-button-light" href={CHURCH.staffLogin}>Chicago staff sign-in <ArrowUpRight size={18}/></a></div><aside className="chi-note"><ShieldCheck size={30} aria-hidden="true"/><h3>Staff access only</h3><p>This page does not display member information. If you need staff access or a change to your responsibilities, contact the church administrator.</p><a href={email("KingsWord Chicago staff access request")} className="kw-text-link">Request staff access <ArrowUpRight size={16}/></a></aside></div>
+        <div className="chi-support"><div><h3>Attendance & member care</h3><p>Our church office is piloting the Sunday roster first. Leaders can record someone they saw, and the office checks the dated service in Breeze before reviewing who may need a call.</p></div><Link href={localHref(context, "members")} className="kw-button">View member entry page <ArrowUpRight size={18}/></Link></div>
       </>}
     </div></section>
   </SiteFrame>;

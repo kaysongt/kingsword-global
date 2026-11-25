@@ -83,7 +83,7 @@ def session(request):
     return None
 
 
-async def fields(request, user=None):
+async def fields(request, user=None, max_bytes=4096):
     if request.headers.get("origin") != ORIGIN:
         raise HTTPException(403, "Open the form from the Chicago office portal.")
     if request.headers.get("content-type", "").split(";")[0] != "application/x-www-form-urlencoded":
@@ -91,7 +91,7 @@ async def fields(request, user=None):
     body = bytearray()
     async for chunk in request.stream():
         body.extend(chunk)
-        if len(body) > 4096:
+        if len(body) > max_bytes:
             raise HTTPException(413)
     try:
         pairs = parse_qs(body.decode(), keep_blank_values=True, max_num_fields=8)
@@ -102,6 +102,8 @@ async def fields(request, user=None):
     values = {key: batch[0] for key, batch in pairs.items()}
     if user and not hmac.compare_digest(user["csrf"].encode(), values.get("csrf", "").encode()):
         raise HTTPException(403, "Reopen this page and try again.")
+    if user and session(request) != user:
+        raise HTTPException(403, "Sign in again to continue.")
     return values
 
 
@@ -253,6 +255,7 @@ async def change_access(request: Request):
     if action == "revoke" and row and not row[2]:
         db.execute("UPDATE office_members SET disabled=1, invitation=NULL, expires=NULL WHERE email=?", (email,))
         db.execute("DELETE FROM office_sessions WHERE email=?", (email,))
+        db.execute("DELETE FROM pilot_grants WHERE email=?", (email,))
         return redirect("/access")
     if action == "invite" and role in ROLES:
         if row and row[1] and not row[2]:

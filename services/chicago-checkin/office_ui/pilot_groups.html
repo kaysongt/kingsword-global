@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}My groups{% endblock %}
+{% block main %}<header class="pagehead"><p class="eyebrow">Chicago · Sunday pilot</p><h1>My groups</h1><p>Choose a small group or fellowship to open its Sunday roster.</p></header>
+{% if groups %}<section class="grid">{% for id,name,mode in groups %}<article><h2><a href="/office/groups/{{ id }}">{{ name }}</a></h2><p>{{ {'office':'Office access','lead':'Group leader','view':'Read-only access'}[mode] }}</p></article>{% endfor %}</section>
+{% else %}<section class="notice">{% if user.role=='office' %}Create the first group below, then add its Breeze roster and assign its leader.{% else %}The church office hasn’t assigned you a group yet. Contact the office for your roster.{% endif %}</section>{% endif %}
+{% if user.role=='office' %}<section><article><h2>Add a group</h2><form class="pilot-form" method="post" action="/office/groups"><input type="hidden" name="csrf" value="{{ user.csrf }}"><label>Group or fellowship name<input name="name" required maxlength="90"></label><button class="primary">Create group</button></form></article></section>{% endif %}{% endblock %}

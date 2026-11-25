@@ -14,6 +14,8 @@ from pathlib import Path
 from uuid import UUID
 from zoneinfo import ZoneInfo
 
+import pilot
+import breeze_attendance
 from office import initialize_office, router as office_router
 
 from fastapi import FastAPI, HTTPException, Request
@@ -53,6 +55,8 @@ async def lifespan(app):
     # A restart after clicking Submit must never silently issue a second submission.
     db.execute("DELETE FROM deliveries WHERE phase='opening'")
     initialize_office(db)
+    pilot.initialize(db)
+    breeze_attendance.initialize(db)
     app.state.db = db
     driver = await async_playwright().start()
     app.state.driver = driver
@@ -66,6 +70,8 @@ async def lifespan(app):
 
 app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
 app.include_router(office_router)
+app.include_router(pilot.router)
+app.include_router(breeze_attendance.router)
 app.add_middleware(CORSMiddleware, allow_origins=sorted(ORIGINS), allow_methods=["POST"],
                    allow_headers=["Content-Type"], max_age=3600)
 
@@ -150,7 +156,7 @@ async def submit(kind: str, data: Submission):
         raise HTTPException(422, "Invalid optional field")
     stamp = int(time.time())
     day = datetime.now(CHICAGO).date().isoformat()
-    who = digest("visitor", data.first.casefold(), data.last.casefold(), data.email.casefold())
+    who = pilot.identity(app.state.key, data.first, data.last, data.email)
     marker = digest("device", who, data.device)
     if kind == "welcome":
         timestamp, _, signature = data.receipt.partition(".")
@@ -209,6 +215,8 @@ async def submit(kind: str, data: Submission):
             db.execute("UPDATE deliveries SET phase='done' WHERE id=?", (delivery,))
             db.execute('''INSERT INTO office_form_totals(day, kind, total) VALUES(?, ?, 1)
                 ON CONFLICT(day, kind) DO UPDATE SET total=total+1''', (day, kind))
+            if kind == "attendance":
+                pilot.match_submission(db, day, who)
             db.execute("COMMIT")
         except Exception:
             db.execute("ROLLBACK")

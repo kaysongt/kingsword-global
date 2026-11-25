@@ -127,7 +127,7 @@ export function ChicagoCheckIn({ endpoint }: { endpoint: string }) {
       {step === "arrival" ? "Sunday service · Chicago" : "Sunday check-in saved"}</div>
     <h2 ref={heading} tabIndex={-1}>{step === "arrival" ? "Sunday check-in" : step === "invite" ? "First time checking in?" :
       step === "profile" ? "Your welcome card" : shared ? "Welcome card saved." : "You’re checked in."}</h2>
-    {step === "arrival" && <p>Let us know you’re here with your name and email.</p>}
+    {step === "arrival" && <p>Here in person this Sunday? Enter your name and email. If you missed check-in, let the church office or your group leader know.</p>}
     {step === "invite" && <><p>Welcome, {identity.first.trim()}! Would you like to share a little more with our welcome team?</p>
       <button type="button" className="chi-check-primary" onClick={() => setStep("profile")}>Yes, share more <ArrowRight aria-hidden size={18}/></button>
       <button type="button" className="chi-check-secondary" onClick={() => finish()}>No thanks, I’m all set</button></>}

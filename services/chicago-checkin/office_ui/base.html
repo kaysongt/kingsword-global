@@ -15,7 +15,7 @@
 </form>{% else %}<a class="quiet" href="{{ site }}/locations/chicago/">Church website <span aria-hidden="true">↗</span></a>{% endif %}</div>
 </header>
 {% if user %}<nav class="nav" aria-label="Chicago workspace">
-<div class="shell"><a href="/office" {% if self.title() == 'Staff workspace' %}aria-current="page"{% endif %}>Overview</a>{% if user.role == "office" %}<a href="/office/vendors" {% if self.title() == 'Vendors &amp; facilities' %}aria-current="page"{% endif %}>Vendors &amp; facilities</a><a href="/office/access" {% if self.title() == 'Staff access' %}aria-current="page"{% endif %}>Staff access</a>{% endif %}</div>
+<div class="shell"><a href="/office" {% if self.title() == 'Staff workspace' %}aria-current="page"{% endif %}>Overview</a><a href="/office/groups">My groups</a><a href="/office/members">Member care</a><a href="/office/review">Pastoral review</a>{% if user.role == "office" %}<a href="/office/vendors" {% if self.title() == 'Vendors &amp; facilities' %}aria-current="page"{% endif %}>Vendors &amp; facilities</a><a href="/office/setup">Office setup</a><a href="/office/access" {% if self.title() == 'Staff access' %}aria-current="page"{% endif %}>Staff access</a>{% endif %}</div>
 </nav>{% endif %}
 <main id="main" class="shell">{% block main %}{% endblock %}</main>
 <footer class="shell foot"><span>KingsWord Chicago</span><span>{% if user %}{{ roles[user.role] }} · {{ user.email }}{% else %}Staff &amp; ministry leaders{% endif %}</span>
