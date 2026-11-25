@@ -36,6 +36,14 @@ class ChicagoOfficeTests(unittest.IsolatedAsyncioTestCase):
         self.addAsyncCleanup(client.aclose)
         return client
 
+    async def test_office_forms_keep_their_same_origin(self):
+        for action in ("/office/activate", "/office/login"):
+            with self.subTest(action=action):
+                form = await self.member.get(action)
+                self.assertEqual(form.headers["referrer-policy"], "same-origin")
+                opaque = await self.member.post(action, data={"email":"office@example.test"}, headers={"origin":"null"})
+                self.assertEqual(opaque.status_code, 403)
+
     async def test_chicago_portal(self):
         for path in ("/office", "/office/vendors", "/office/access"):
             response = await self.member.get(path)

@@ -130,7 +130,8 @@ async def protect(request: Request, call_next):
     if request.url.path.startswith("/office"):
         response.headers.update({
             "Content-Security-Policy": "default-src 'none'; style-src 'self'; img-src 'self' https://kaysongt.github.io; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
-            "Referrer-Policy": "no-referrer",
+            # Native form posts must retain this origin for the office CSRF check.
+            "Referrer-Policy": "same-origin",
             "X-Content-Type-Options": "nosniff",
             "X-Robots-Tag": "noindex, nofollow",
         })
